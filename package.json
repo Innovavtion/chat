@@ -1,0 +1,26 @@
+{
+  "name": "chat-fullstack",
+  "version": "0.0.1",
+  "author": "Nikita",
+  "license": "ISC",
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "dev": "turbo run dev",
+    "dev:client": "",
+    "dev:server": "",
+    "build": "turbo run build",
+    "start": "turbo run start",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "deploy": "turbo run deploy"
+  },
+  "devDependencies": {
+    "only-allow": "^1.2.1",
+    "turbo": "^1.13.2"
+  }
+}

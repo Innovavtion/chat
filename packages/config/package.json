@@ -1,0 +1,6 @@
+{
+  "name": "config",
+  "main": "index.ts",
+  "module": "index.ts",
+  "type": "module"
+}
