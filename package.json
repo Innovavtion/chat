@@ -14,10 +14,9 @@
     "dev:client": "",
     "dev:server": "",
     "build": "turbo run build",
-    "start": "turbo run start",
+    "start": "node apps/server/dist/main",
     "lint": "turbo run lint",
-    "test": "turbo run test",
-    "deploy": "turbo run deploy"
+    "test": "turbo run test"
   },
   "devDependencies": {
     "only-allow": "^1.2.1",
