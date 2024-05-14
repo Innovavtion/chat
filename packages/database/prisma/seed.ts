@@ -1,60 +1,36 @@
-import { PrismaClient, Prisma } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
+
+import { seedUsers } from "./data/users";
+import { seedChats } from "./data/chats";
+import { seedParticipants } from "./data/participants";
+import { seedMessages } from "./data/messages";
 
 const prisma = new PrismaClient();
 
-const roleData: Prisma.RoleCreateInput[] = [
-  {
-    role: "user",
-  },
-  {
-    role: "admin",
-  },
-];
+async function seedData() {
+  console.log(`Delete all data ...`);
 
-const userData: Prisma.UserCreateInput[] = [
-  {
-    email: "user@mail.ru",
-    login: "User",
-    password: "User",
-  },
-  {
-    email: "user1@mail.ru",
-    login: "User 1",
-    password: "User 1",
-  },
-  {
-    email: "user2@mail.ru",
-    login: "User 2",
-    password: "User 2",
-  },
-];
+  await prisma.users.deleteMany();
+  await prisma.chats.deleteMany();
+  await prisma.participants.deleteMany();
+  await prisma.messages.deleteMany();
 
-async function main() {
   console.log(`Start seeding ...`);
 
-  for (const r of roleData) {
-    const role = await prisma.role.create({
-      data: r,
-    });
-    console.log(`Created role with id: ${role.id}`);
-  }
-
-  for (const u of userData) {
-    const user = await prisma.user.create({
-      data: u,
-    });
-    console.log(`Created user with id: ${user.id}`);
-  }
+  await seedUsers(prisma);
+  await seedChats(prisma);
+  await seedParticipants(prisma);
+  await seedMessages(prisma);
 
   console.log(`Seeding finished.`);
 }
 
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
+seedData()
   .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
+    console.error(`There was an error while seeding: ${e}`);
     process.exit(1);
+  })
+  .finally(async () => {
+    console.log("Closing Connection");
+    await prisma.$disconnect();
   });
