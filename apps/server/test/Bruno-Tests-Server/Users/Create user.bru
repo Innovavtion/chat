@@ -1,0 +1,19 @@
+meta {
+  name: Create user
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/user/
+  body: formUrlEncoded
+  auth: none
+}
+
+body:form-urlencoded {
+  login: user
+  email: user1@mail.ru
+  password: user
+  lastName: user
+  firstName: user
+}

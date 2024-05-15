@@ -11,8 +11,8 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "dev": "turbo run dev",
-    "dev:client": "",
-    "dev:server": "",
+    "dev:client": "turbo run dev --filter=client",
+    "dev:server": "turbo run dev --filter=server",
     "build": "turbo run build",
     "start": "node apps/server/dist/main",
     "lint": "turbo run lint",

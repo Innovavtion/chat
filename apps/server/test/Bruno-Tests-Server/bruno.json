@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Tests-Chat-Server",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
