@@ -36,17 +36,17 @@ model Chats {
 
 model Participants {
   id     Int   @id @unique @default(autoincrement())
-  chat   Chats @relation(fields: [chatId], references: [id])
+  chat   Chats @relation(fields: [chatId], references: [id], onDelete: Cascade)
   chatId Int
-  user   Users @relation(fields: [userId], references: [id])
+  user   Users @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
 }
 
 model Messages {
   id        Int      @id @unique @default(autoincrement())
-  chat      Chats    @relation(fields: [chatId], references: [id])
+  chat      Chats    @relation(fields: [chatId], references: [id], onDelete: Cascade)
   chatId    Int
-  user      Users    @relation(fields: [userId], references: [id])
+  user      Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   text      String
   dataWrite DateTime @default(now())
