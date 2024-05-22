@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 
-import { PrismaModule } from './common/database/prisma.module';
+import { PrismaModule } from './config/database/prisma.module';
 import { UsersModule } from './service/users/users.module';
 
 @Module({
