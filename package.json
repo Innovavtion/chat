@@ -10,10 +10,10 @@
   ],
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "dev": "turbo run dev",
-    "dev:client": "turbo run dev --filter=client",
-    "dev:server": "turbo run dev --filter=server",
-    "build": "turbo run build",
+    "dev": "dotenv -- turbo run dev",
+    "dev:client": "dotenv -- turbo run dev --filter=client",
+    "dev:server": "dotenv -- turbo run dev --filter=server",
+    "build": "dotenv -- turbo run build",
     "start": "node apps/server/dist/main",
     "lint": "turbo run lint",
     "test": "turbo run test"
@@ -21,5 +21,8 @@
   "devDependencies": {
     "only-allow": "^1.2.1",
     "turbo": "^1.13.2"
+  },
+  "dependencies": {
+    "dotenv-cli": "^7.4.2"
   }
 }

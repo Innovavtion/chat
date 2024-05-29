@@ -6,13 +6,24 @@
 $ pnpm install
 ```
 
-### Dev
+### Development
+
+- Create `.env` and transfer the data from `.env.development`
 
 ```bash
+# Client and Server
 $ pnpm dev
+
+# Client
+$ pnpm dev:client
+
+# Server
+$ pnpm dev:server
 ```
 
-### Prod
+### Production
+
+- Create `.env` and transfer the data from `.env.example` and add you value
 
 ```bash
 # Build app

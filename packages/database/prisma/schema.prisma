@@ -13,41 +13,71 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
-  id             Int            @id @unique @default(autoincrement())
+model User {
+  id             Int           @id @unique @default(autoincrement())
   login          String
-  email          String         @unique
-  password       String
+  email          String        @unique
+  password       String?
+  provider       Provider?
   lastName       String
   firstName      String
   avatar         String?
-  dataActive     DateTime       @updatedAt
-  dataRegistrate DateTime       @default(now())
-  Participants   Participants[]
-  Messages       Messages[]
+  dataActive     DateTime      @updatedAt
+  dataRegistrate DateTime      @default(now())
+  roles          Role[]        @default([USER])
+  tokens         Token[]
+  particapants   Participant[]
+  messages       Message[]
+
+  @@map("users")
 }
 
-model Chats {
-  id           Int            @id @unique @default(autoincrement())
-  dataCreate   DateTime       @default(now())
-  Participants Participants[]
-  Messages     Messages[]
+model Token {
+  token     String   @unique
+  exp       DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  userAgent String   @map("user_agent")
+
+  @@map("tokens")
 }
 
-model Participants {
-  id     Int   @id @unique @default(autoincrement())
-  chat   Chats @relation(fields: [chatId], references: [id], onDelete: Cascade)
+model Chat {
+  id           Int           @id @unique @default(autoincrement())
+  dataCreate   DateTime      @default(now())
+  particapants Participant[]
+  messages     Message[]
+
+  @@map("chats")
+}
+
+model Participant {
+  id     Int  @id @unique @default(autoincrement())
+  chat   Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
   chatId Int
-  user   Users @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId Int
+
+  @@map("participants")
 }
 
-model Messages {
+model Message {
   id        Int      @id @unique @default(autoincrement())
-  chat      Chats    @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
   chatId    Int
-  user      Users    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    Int
   text      String
   dataWrite DateTime @default(now())
+
+  @@map("messages")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum Provider {
+  GOOGLE
 }

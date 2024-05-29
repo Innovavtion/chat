@@ -1,16 +1,15 @@
 import { PrismaClient, Prisma } from "@prisma/client";
 import { DefaultArgs } from "@prisma/client/runtime/library";
-import { faker } from "@faker-js/faker";
 
-export const seedParticipants = async (
+export const seedParticipant = async (
   prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>
 ) => {
-  const users = await prisma.users.findMany();
-  const chats = await prisma.chats.findMany();
+  const users = await prisma.user.findMany();
+  const chats = await prisma.chat.findMany();
 
   // Добавление админа во все чаты
   for (let i = 0; i < chats.length; i++) {
-    await prisma.participants.createMany({
+    await prisma.participant.createMany({
       data: [
         {
           userId: users[0].id,
@@ -22,7 +21,7 @@ export const seedParticipants = async (
 
   // Добавление разных пользователей в разные чаты с админом
   for (let i = 0; i < chats.length; i++) {
-    await prisma.participants.createMany({
+    await prisma.participant.createMany({
       data: [
         {
           userId: users[i + 1].id,

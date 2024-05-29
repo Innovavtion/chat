@@ -1,26 +1,26 @@
 import { PrismaClient } from "@prisma/client";
 
-import { seedUsers } from "./data/users";
-import { seedChats } from "./data/chats";
-import { seedParticipants } from "./data/participants";
-import { seedMessages } from "./data/messages";
+import { seedUser } from "./data/user";
+import { seedChat } from "./data/chat";
+import { seedParticipant } from "./data/participant";
+import { seedMessage } from "./data/message";
 
 const prisma = new PrismaClient();
 
 async function seedData() {
   console.log(`Delete all data ...`);
 
-  await prisma.users.deleteMany();
-  await prisma.chats.deleteMany();
-  await prisma.participants.deleteMany();
-  await prisma.messages.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.chat.deleteMany();
+  await prisma.participant.deleteMany();
+  await prisma.message.deleteMany();
 
   console.log(`Start seeding ...`);
 
-  await seedUsers(prisma);
-  await seedChats(prisma);
-  await seedParticipants(prisma);
-  await seedMessages(prisma);
+  await seedUser(prisma);
+  await seedChat(prisma);
+  await seedParticipant(prisma);
+  await seedMessage(prisma);
 
   console.log(`Seeding finished.`);
 }
