@@ -1,0 +1,16 @@
+meta {
+  name: Update user
+  type: http
+  seq: 5
+}
+
+put {
+  url: {{baseUrl}}/user/17
+  body: formUrlEncoded
+  auth: none
+}
+
+body:form-urlencoded {
+  lastName: Hello
+  firstName: 
+}
