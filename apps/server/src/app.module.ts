@@ -6,6 +6,7 @@ import { join } from 'path';
 import { PrismaModule } from './config/database/prisma.module';
 import { UserModule } from './service/user/user.module';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './service/auth/auth.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ConfigModule } from '@nestjs/config';
     }),
     UserModule,
     PrismaModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
