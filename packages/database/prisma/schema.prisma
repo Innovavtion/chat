@@ -14,8 +14,8 @@ datasource db {
 }
 
 model User {
-  id             Int           @id @unique @default(autoincrement())
-  login          String
+  id             String        @id @unique @default(uuid())
+  login          String        @unique
   email          String        @unique
   password       String?
   provider       Provider?
@@ -36,7 +36,7 @@ model Token {
   token     String   @unique
   exp       DateTime
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
+  userId    String
   userAgent String   @map("user_agent")
 
   @@map("tokens")
@@ -52,11 +52,11 @@ model Chat {
 }
 
 model Participant {
-  id     Int  @id @unique @default(autoincrement())
-  chat   Chat @relation(fields: [chatId], references: [id], onDelete: Cascade)
+  id     Int    @id @unique @default(autoincrement())
+  chat   Chat   @relation(fields: [chatId], references: [id], onDelete: Cascade)
   chatId Int
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 
   @@map("participants")
 }
@@ -66,7 +66,7 @@ model Message {
   chat      Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
   chatId    Int
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    Int
+  userId    String
   text      String
   dataWrite DateTime @default(now())
 

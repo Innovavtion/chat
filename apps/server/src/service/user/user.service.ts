@@ -17,7 +17,7 @@ export class UserService {
 
   async getUser(id: string): Promise<UserModel[]> {
     const passwordUnHash = this.prisma.user.findMany({
-      where: { id: Number(id) },
+      where: { id: id },
     });
     return passwordUnHash;
   }
@@ -52,7 +52,7 @@ export class UserService {
     const { lastName, firstName } = user;
 
     const updateUser = await this.prisma.user.update({
-      where: { id: Number(id) },
+      where: { id: id },
       data: { lastName: lastName, firstName: firstName },
     });
 
@@ -60,6 +60,6 @@ export class UserService {
   }
 
   async deleteUser(id: string): Promise<UserModel> {
-    return this.prisma.user.delete({ where: { id: Number(id) } });
+    return this.prisma.user.delete({ where: { id: id } });
   }
 }
