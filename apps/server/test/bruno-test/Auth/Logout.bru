@@ -7,5 +7,9 @@ meta {
 get {
   url: {{baseUrl}}/auth/logout
   body: none
-  auth: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVlOTkyMTA3LThhNDItNGQyMC1hN2RiLWYxY2E2OTdlNDJhNSIsImVtYWlsIjoidXNlckBtYWlsLnJ1Iiwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE3MTc1MTg3NzIsImV4cCI6MTcxNzUxOTA3Mn0.ORV2gAWcnBnOnef2mKFT8xf16KdLAafiDPA1lW0HjXo
 }

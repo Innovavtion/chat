@@ -1,0 +1,19 @@
+meta {
+  name: Delete chat
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/chat/delete-chat
+  body: formUrlEncoded
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJkNWIxYTFiLTNkN2MtNDhhMS05NTg4LTJjZDgwYjAyYTM5ZCIsImVtYWlsIjoidXNlckBtYWlsLnJ1Iiwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE3MTc1MDEyOTAsImV4cCI6MTcxNzUwMTU5MH0.Lo3qN-2zo8Tgwm33kj7SNosu5CPah5Vq8wjKNiddeWw
+}
+
+body:form-urlencoded {
+  chatId: 19
+}

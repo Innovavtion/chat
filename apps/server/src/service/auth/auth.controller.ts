@@ -88,8 +88,10 @@ export class AuthController {
     res.sendStatus(HttpStatus.OK);
   }
 
+  /*
   @Get('google')
   async googleAuth() {}
+  */
 
   @Get('refresh')
   async refreshTokens(

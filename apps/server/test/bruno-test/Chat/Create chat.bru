@@ -1,0 +1,19 @@
+meta {
+  name: Create chat
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/chat/create-chat
+  body: formUrlEncoded
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImE5YzRlZTJjLTc3NTEtNDM1NS04ODc2LTI4NDRjNGJlZWU5OSIsImVtYWlsIjoiYWRtaW5AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcxNzU3MzI0MywiZXhwIjoxNzE3NTczNTQzfQ.w9tly1NO2T968HtszDqUJ_LRQv3jjkHHmay3TE8_KvI
+}
+
+body:form-urlencoded {
+  userId: 9ef48acf-cdb5-4d0f-b685-2c5625dfe9c8
+}

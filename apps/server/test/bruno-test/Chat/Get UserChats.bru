@@ -1,0 +1,15 @@
+meta {
+  name: Get UserChats
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/chat/user-chats/
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJkNWIxYTFiLTNkN2MtNDhhMS05NTg4LTJjZDgwYjAyYTM5ZCIsImVtYWlsIjoidXNlckBtYWlsLnJ1Iiwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE3MTc0Nzk3NjEsImV4cCI6MTcxNzQ4MDA2MX0.SUs8q1ckbgtm7iMpwOmBPbPhBEpw1uORJENZt5uk7Ec
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Get CurrentChat
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/chat/current-chat/10
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJkNWIxYTFiLTNkN2MtNDhhMS05NTg4LTJjZDgwYjAyYTM5ZCIsImVtYWlsIjoidXNlckBtYWlsLnJ1Iiwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE3MTc0ODc5ODIsImV4cCI6MTcxNzQ4ODI4Mn0.hLqXL3Her_qnpvGQv071nW64aL1JDJdQR7euAxl40JY
+}

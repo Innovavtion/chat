@@ -94,13 +94,9 @@ export class AuthService {
   }
 
   async getRefreshTokens(userId: string, agent: string): Promise<Token> {
-    console.log(userId, agent);
-
     const getToken = await this.prisma.token.findFirst({
       where: { userId, userAgent: agent },
     });
-
-    console.log(getToken);
 
     const token = getToken?.token ?? '';
 
