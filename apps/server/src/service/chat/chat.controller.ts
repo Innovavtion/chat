@@ -32,18 +32,11 @@ export class ChatController {
     return this.chatService.createChat(user, otherUser);
   }
 
-  /*
-  @Put('update-chat')
-  async updateChat() {
-    return this.chatService.updateChat();
-  }
-  */
-
   @Delete('delete-chat')
   async deleteChat(
     @CurrentUser() user: JwtPayload,
-    @Body() chat: DeleteChatDto,
+    @Body() chatDto: DeleteChatDto,
   ) {
-    return this.chatService.deleteChat(user, chat);
+    return this.chatService.deleteChat(user, chatDto);
   }
 }

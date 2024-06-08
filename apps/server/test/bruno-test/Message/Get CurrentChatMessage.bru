@@ -1,0 +1,15 @@
+meta {
+  name: Get CurrentChatMessage
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/message/messages-current-chat/28
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVlOTkyMTA3LThhNDItNGQyMC1hN2RiLWYxY2E2OTdlNDJhNSIsImVtYWlsIjoidXNlckBtYWlsLnJ1Iiwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE3MTc3NzAwMzgsImV4cCI6MTcxNzc3MDYzOH0.U1YvYkVxRQiBv05fbJi9WdjQGsbe7Jfk0TFl_sEhPMc
+}

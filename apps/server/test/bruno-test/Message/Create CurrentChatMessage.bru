@@ -1,0 +1,20 @@
+meta {
+  name: Create CurrentChatMessage
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/message/message-create-current-chat/
+  body: formUrlEncoded
+  auth: bearer
+}
+
+auth:bearer {
+  token:  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVlOTkyMTA3LThhNDItNGQyMC1hN2RiLWYxY2E2OTdlNDJhNSIsImVtYWlsIjoidXNlckBtYWlsLnJ1Iiwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE3MTc3NzAwMzgsImV4cCI6MTcxNzc3MDYzOH0.U1YvYkVxRQiBv05fbJi9WdjQGsbe7Jfk0TFl_sEhPMc
+}
+
+body:form-urlencoded {
+  chatId: 28
+  message: hello
+}

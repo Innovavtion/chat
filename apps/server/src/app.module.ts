@@ -8,6 +8,7 @@ import { UserModule } from './service/user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './service/auth/auth.module';
 import { ChatModule } from './service/chat/chat.module';
+import { MessageModule } from './service/message/message.module';
 
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './service/auth/guards/jwt-auth.guard';
@@ -22,6 +23,7 @@ import { JwtAuthGuard } from './service/auth/guards/jwt-auth.guard';
     PrismaModule,
     AuthModule,
     ChatModule,
+    MessageModule,
   ],
   controllers: [],
   providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }],
