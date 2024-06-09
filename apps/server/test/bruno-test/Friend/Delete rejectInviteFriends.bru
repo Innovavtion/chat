@@ -1,0 +1,19 @@
+meta {
+  name: Delete rejectInviteFriends
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseUrl}}/friend/reject-invite-friends
+  body: formUrlEncoded
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU3OWI0NWE3LTI2MTctNDQwZS1iMjkxLTMzM2EyNTgxYjk2ZiIsImVtYWlsIjoiYWRtaW5AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcxNzkxOTE0NSwiZXhwIjoxNzE3OTE5NzQ1fQ.7OjH44UR8bbTBy_RjyvwVQIi1u2qzAe3QbRNglFnmX0
+}
+
+body:form-urlencoded {
+  userId: 2abd4d9b-95fd-4c82-ba0a-7f8bd569f72e
+}

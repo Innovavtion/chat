@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 
 import { seedUser } from "./data/user";
+import { seedFriend } from "./data/friend";
 import { seedChat } from "./data/chat";
 import { seedParticipant } from "./data/participant";
 import { seedMessage } from "./data/message";
@@ -11,6 +12,7 @@ async function seedData() {
   console.log(`Delete all data ...`);
 
   await prisma.user.deleteMany();
+  await prisma.friend.deleteMany();
   await prisma.chat.deleteMany();
   await prisma.participant.deleteMany();
   await prisma.message.deleteMany();
@@ -18,6 +20,7 @@ async function seedData() {
   console.log(`Start seeding ...`);
 
   await seedUser(prisma);
+  await seedFriend(prisma);
   await seedChat(prisma);
   await seedParticipant(prisma);
   await seedMessage(prisma);

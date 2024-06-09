@@ -1,0 +1,15 @@
+meta {
+  name: Get UserInviteFriends
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/friend/user-invite-friends/
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU3OWI0NWE3LTI2MTctNDQwZS1iMjkxLTMzM2EyNTgxYjk2ZiIsImVtYWlsIjoiYWRtaW5AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcxNzkxOTE0NSwiZXhwIjoxNzE3OTE5NzQ1fQ.7OjH44UR8bbTBy_RjyvwVQIi1u2qzAe3QbRNglFnmX0
+}

@@ -28,6 +28,8 @@ model User {
   tokens         Token[]
   particapants   Participant[]
   messages       Message[]
+  userInvite     Friend[]      @relation("userInvite")
+  userReceiving  Friend[]      @relation("userReceiving")
 
   @@map("users")
 }
@@ -40,6 +42,17 @@ model Token {
   userAgent String   @map("user_agent")
 
   @@map("tokens")
+}
+
+model Friend {
+  id              String  @id @unique @default(uuid())
+  userInvite      User    @relation("userInvite", fields: [userInviteId], references: [id], onDelete: Cascade)
+  userInviteId    String
+  userReceiving   User    @relation("userReceiving", fields: [userReceivingId], references: [id], onDelete: Cascade)
+  userReceivingId String
+  statusInvite    Boolean @default(false)
+
+  @@map("friends")
 }
 
 model Chat {

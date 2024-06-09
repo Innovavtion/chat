@@ -1,0 +1,15 @@
+meta {
+  name: Get UserReceivingFriends
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/friend/user-receiving-friends/
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU3OWI0NWE3LTI2MTctNDQwZS1iMjkxLTMzM2EyNTgxYjk2ZiIsImVtYWlsIjoiYWRtaW5AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcxNzkxOTgyOSwiZXhwIjoxNzE3OTIwNDI5fQ.U7yhZQUihZzuv2uS85wBYrUg86J0bMcbbO2lF5wwDDE
+}

@@ -1,0 +1,19 @@
+meta {
+  name: Delete deleteUserFriend
+  type: http
+  seq: 7
+}
+
+delete {
+  url: {{baseUrl}}/friend/remove
+  body: formUrlEncoded
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU3OWI0NWE3LTI2MTctNDQwZS1iMjkxLTMzM2EyNTgxYjk2ZiIsImVtYWlsIjoiYWRtaW5AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcxNzkyMDA5OCwiZXhwIjoxNzE3OTIwNjk4fQ.hYo7cfbqPiMdH0abYvLx2VNY8YN7JvOnkGJ7dFzT-jA
+}
+
+body:form-urlencoded {
+  userId: c2a5d46a-057a-4a65-ade2-7e7748e53b7a
+}

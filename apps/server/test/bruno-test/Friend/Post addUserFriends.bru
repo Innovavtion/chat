@@ -1,0 +1,19 @@
+meta {
+  name: Post addUserFriends
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/friend/new
+  body: formUrlEncoded
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU3OWI0NWE3LTI2MTctNDQwZS1iMjkxLTMzM2EyNTgxYjk2ZiIsImVtYWlsIjoiYWRtaW5AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcxNzkyMDg1NSwiZXhwIjoxNzE3OTIxNDU1fQ.ZIdAlUdE1NbY882oYufHQugszILu6Bg_umV8dE-dJkM
+}
+
+body:form-urlencoded {
+  userId: 784cdf10-dac5-415b-b40f-cc3805e84bd1
+}

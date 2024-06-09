@@ -7,6 +7,7 @@ import { PrismaModule } from './config/database/prisma.module';
 import { UserModule } from './service/user/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './service/auth/auth.module';
+import { FriendModule } from './service/friend/friend.module';
 import { ChatModule } from './service/chat/chat.module';
 import { MessageModule } from './service/message/message.module';
 
@@ -22,6 +23,7 @@ import { JwtAuthGuard } from './service/auth/guards/jwt-auth.guard';
     UserModule,
     PrismaModule,
     AuthModule,
+    FriendModule,
     ChatModule,
     MessageModule,
   ],
