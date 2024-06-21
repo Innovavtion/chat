@@ -1,20 +1,14 @@
-import { useEffect, useState } from "react";
+import { Theme, ThemePanel } from "@radix-ui/themes";
+import "@radix-ui/themes/styles.css";
+import "./App.module.css";
 
-function App() {
-  const [greeting, setGreeting] = useState("");
+import Routers from "./routers/index.tsx";
 
-  useEffect(() => {
-    fetch("server/user")
-      .then((res) => res.text())
-      .then(setGreeting);
-  }, []);
-
+export default function App() {
   return (
-    <>
-      <p>Test data</p>
-      <p>{greeting}</p>
-    </>
+    <Theme appearance="light" accentColor="blue" grayColor="sand">
+      <Routers />
+      <ThemePanel />
+    </Theme>
   );
 }
-
-export default App;
