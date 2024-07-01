@@ -24,6 +24,10 @@ import {
 import UserModal from "@/components/modal/userModal";
 import FriendsModal from "@/components/modal/friendsModal";
 
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "@/store/store";
+import { logout } from "@/store/slice/auth.slice";
+
 const UserFriends: Array = [
   { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
   { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
@@ -100,6 +104,15 @@ export default function Chat() {
     }
   }, []);
 
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  async function logoutUser() {
+    dispatch(logout()).then(() => {
+      navigate("/login");
+    });
+  }
+
   return (
     <div className={styles.Container}>
       <Box className={styles.BoxChat}>
@@ -145,6 +158,7 @@ export default function Chat() {
                 height="20"
                 color="red"
                 style={{ cursor: "pointer" }}
+                onClick={() => logoutUser()}
               />
               <UserModal />
             </Box>

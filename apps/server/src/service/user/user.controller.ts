@@ -1,43 +1,41 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Post,
-  Body,
-  Delete,
-  Put,
-} from '@nestjs/common';
+import { Controller, Get, Param, Body, Delete, Put } from '@nestjs/common';
 
 import { UserService } from './user.service';
 
 import { User } from '@packages/database';
 
+import { JwtPayload } from '../auth/interfaces/tokens.interface';
+import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get()
+  @Get('auth')
+  async getAuthUser(@CurrentUser() user: JwtPayload) {
+    return this.userService.getAuthUser(user);
+  }
+
+  @Get('all')
   async getAllUsers() {
     return this.userService.getAllUser();
   }
 
   @Get(':id')
-  async getUser(@Param('id') id: string) {
+  async getUser(@CurrentUser() user: JwtPayload, @Param('id') id: string) {
     return this.userService.getUser(id);
   }
 
-  @Post()
-  async createUser(@Body() user: Partial<User>) {
-    return this.userService.createUser(user);
+  @Put()
+  async updateUser(
+    @CurrentUser() user: JwtPayload,
+    @Body() dataUser: Partial<User>,
+  ) {
+    return this.userService.updateUser(user, dataUser);
   }
 
-  @Put(':id')
-  async updateUser(@Param('id') id: string, @Body() user: Partial<User>) {
-    return this.userService.updateUser(id, user);
-  }
-
-  @Delete(':id')
-  async deleteUser(@Param('id') id: string) {
-    return this.userService.deleteUser(id);
+  @Delete()
+  async deleteUser(@CurrentUser() user: JwtPayload) {
+    return this.userService.deleteUser(user);
   }
 }

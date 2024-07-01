@@ -7,19 +7,36 @@ import { User as UserModel } from '@packages/database';
 
 import { genSaltSync, hashSync } from 'bcrypt';
 
+import { JwtPayload } from '../auth/interfaces/tokens.interface';
+
 @Injectable()
 export class UserService {
   constructor(private readonly prisma: PrismaService) {}
+
+  async getAuthUser(user: JwtPayload) {
+    const getUser = this.prisma.user.findMany({
+      where: { id: user.id },
+    });
+
+    if (!getUser) {
+      throw new HttpException(
+        'Такого пользователя нет',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    return HttpStatus.OK;
+  }
 
   async getAllUser(): Promise<UserModel[]> {
     return this.prisma.user.findMany();
   }
 
   async getUser(id: string): Promise<UserModel[]> {
-    const passwordUnHash = this.prisma.user.findMany({
+    const user = this.prisma.user.findMany({
       where: { id: id },
     });
-    return passwordUnHash;
+    return user;
   }
 
   async createUser(user: Partial<User>) {
@@ -48,18 +65,40 @@ export class UserService {
     }
   }
 
-  async updateUser(id: string, user: Partial<User>) {
-    const { lastName, firstName } = user;
+  async updateUser(user: JwtPayload, userData: Partial<User>) {
+    const { lastName, firstName } = userData;
+
+    const getUser = this.prisma.user.findMany({
+      where: { id: user.id },
+    });
+
+    if (!getUser) {
+      throw new HttpException(
+        'Такого пользователя нет',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
 
     const updateUser = await this.prisma.user.update({
-      where: { id: id },
+      where: { id: user.id },
       data: { lastName: lastName, firstName: firstName },
     });
 
     return updateUser;
   }
 
-  async deleteUser(id: string): Promise<UserModel> {
-    return this.prisma.user.delete({ where: { id: id } });
+  async deleteUser(user: JwtPayload): Promise<UserModel> {
+    const getUser = this.prisma.user.findMany({
+      where: { id: user.id },
+    });
+
+    if (!getUser) {
+      throw new HttpException(
+        'Такого пользователя нет',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    return this.prisma.user.delete({ where: { id: user.id } });
   }
 }

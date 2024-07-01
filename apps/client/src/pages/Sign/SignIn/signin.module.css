@@ -1,4 +1,3 @@
-/* reset */
 button,
 fieldset,
 input {
@@ -13,48 +12,33 @@ input {
   align-items: center;
 }
 
-.TabsRoot {
+.SignInContainer {
   display: flex;
   flex-direction: column;
   border-radius: var(--radius-3);
+  border-color: var(--gray-7);
+  box-shadow: var(--shadow-5);
   min-width: 100px;
   max-width: 350px;
   width: 100%;
   min-height: 200px;
-  box-shadow: var(--shadow-6);
 }
 
-.TabsList {
-  flex-shrink: 0;
-  display: flex;
-}
-
-.TabsTrigger {
-  font-family: inherit;
-  padding: 0 20px;
-  height: 45px;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 15px;
-  line-height: 1;
-  user-select: none;
-}
-.TabsTrigger:hover {
-  color: var(--accent-10);
-}
-.TabsTrigger[data-state='active'] {
-  color: var(--accent-10);
-  box-shadow: inset 0 -1px 0 0 var(--accent-10), 0 1px 0 0 var(--accent-10);
-}
-
-.TabsContent {
+.SignInForms {
   flex-grow: 1;
   padding: 20px;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
   outline: none;
+}
+
+.Title {
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: large;
+  padding-bottom: 20px;
 }
 
 .Text {
@@ -79,6 +63,12 @@ input {
   display: block;
 }
 
+.Validation {
+  padding-top: 2px;
+  font-size: small;
+  color: red;
+}
+
 .Input {
   flex: 1 0 auto;
   border-radius: 4px;
@@ -91,6 +81,16 @@ input {
 
 .Input:focus {
   box-shadow: 0 0 0 2px var(--accent-10);
+}
+
+.Link {
+  color: var(--accent-10);
+  text-decoration: none;
+  text-decoration-line: var(--accent-10);
+}
+
+.Link:hover {
+  text-decoration-line: var(--accent-10);
 }
 
 .Button {

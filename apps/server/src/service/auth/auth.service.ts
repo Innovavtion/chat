@@ -32,6 +32,14 @@ export class AuthService {
       throw new HttpException('Email is registered', HttpStatus.CONFLICT);
     }
 
+    const getUserLogin = await this.prisma.user.findFirst({
+      where: { login: login },
+    });
+
+    if (getUserLogin) {
+      throw new HttpException('Login is registered', HttpStatus.CONFLICT);
+    }
+
     const passwordHash = hashSync(password, genSaltSync(10));
 
     const saveUser = await this.prisma.user.create({

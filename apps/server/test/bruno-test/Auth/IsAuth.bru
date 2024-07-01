@@ -1,0 +1,15 @@
+meta {
+  name: IsAuth
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/user/auth/
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjcNkZjEwLWRhYzUtNDE1Yi1iNDBmLWNjMzgwNWU4NGJkMSIsImVtYWlsIjoidXNlckBtYWlsLnJ1Iiwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE3MTk1NjExODYsImV4cCI6MTcxOTU2MTc4Nn0.8ahGCxAb4EfB1pMyRvy86rzSOvKO55mdwMkN7zkT0M0
+}
