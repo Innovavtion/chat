@@ -75,6 +75,14 @@ export class AuthService {
   async logout() {}
 
   async refreshTokens(refreshToken: string, agent: string): Promise<Tokens> {
+    const getToken = await this.prisma.token.findUnique({
+      where: { token: refreshToken },
+    });
+
+    if (!getToken) {
+      throw new HttpException('Token dont create', HttpStatus.UNAUTHORIZED);
+    }
+
     const token = await this.prisma.token.delete({
       where: { token: refreshToken },
     });

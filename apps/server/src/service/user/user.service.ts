@@ -16,6 +16,16 @@ export class UserService {
   async getAuthUser(user: JwtPayload) {
     const getUser = this.prisma.user.findMany({
       where: { id: user.id },
+      select: {
+        id: true,
+        email: true,
+        lastName: true,
+        firstName: true,
+        avatar: true,
+        dataActive: true,
+        dataRegistrate: true,
+        roles: true,
+      },
     });
 
     if (!getUser) {
@@ -25,7 +35,7 @@ export class UserService {
       );
     }
 
-    return HttpStatus.OK;
+    return getUser;
   }
 
   async getAllUser(): Promise<UserModel[]> {

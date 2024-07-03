@@ -14,7 +14,7 @@ import { isAuth } from "@/store/slice/auth.slice";
 
 const Private = () => {
   const auth = useSelector((state: RootState) => state.auth.auth);
-  return auth ? <Outlet /> : <Navigate to="/SignIn" />;
+  return auth ? <Outlet /> : <Navigate to="/signin" />;
 };
 
 const CloseLoginForAuth = () => {

@@ -2,13 +2,14 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAppDispatch } from "@/store/store";
 
 import { Box, Text } from "@radix-ui/themes";
-import { login } from "@/store/slice/auth.slice";
+import { login, selectAuth } from "@/store/slice/auth.slice";
 import { SignInData } from "@/services/auth.service";
 import styles from "./signin.module.css";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useSelector } from "react-redux";
 
 const schemaSignValidate = z.object({
   email: z.string().nonempty("This string don't any empty").email(),
@@ -18,6 +19,7 @@ const schemaSignValidate = z.object({
 export default function SignIn() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const reduxError = useSelector(selectAuth);
 
   const {
     handleSubmit,
@@ -68,6 +70,9 @@ export default function SignIn() {
                   {errors.email?.message}
                 </label>
               )}
+              {reduxError.status === "failed" && (
+                <label className={styles.Validation}>{reduxError.error}</label>
+              )}
             </fieldset>
             <fieldset className={styles.Fieldset}>
               <label className={styles.Label} htmlFor="password">
@@ -85,6 +90,9 @@ export default function SignIn() {
                 <label className={styles.Validation}>
                   {errors.password?.message}
                 </label>
+              )}
+              {reduxError.status === "failed" && (
+                <label className={styles.Validation}>{reduxError.error}</label>
               )}
             </fieldset>
             <Link className={styles.Link} to="/signup">

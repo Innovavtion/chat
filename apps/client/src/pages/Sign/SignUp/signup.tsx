@@ -2,13 +2,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@/store/store";
 
 import { Box, Text } from "@radix-ui/themes";
-import { register as reduxRegister } from "@/store/slice/auth.slice";
+import {
+  register as reduxRegister,
+  selectAuth,
+} from "@/store/slice/auth.slice";
 import { SignUpData } from "@/services/auth.service";
 import styles from "./signup.module.css";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useSelector } from "react-redux";
 
 const schemaSignValidate = z
   .object({
@@ -39,6 +43,7 @@ const schemaSignValidate = z
 export default function SignUp() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const reduxError = useSelector(selectAuth);
 
   const {
     handleSubmit,
@@ -51,13 +56,16 @@ export default function SignUp() {
   async function fetchSignup(e: SignUpData) {
     try {
       dispatch(reduxRegister(e))
+        .unwrap()
         .then((result) => {
-          if (result.payload) {
+          if (result) {
             navigate("/signin");
           }
         })
-        .catch((e) => {
-          console.log(e);
+        .catch((error) => {
+          if (error instanceof Error) {
+            console.log(error);
+          }
         });
     } catch (error) {
       if (error instanceof Error) {
@@ -93,6 +101,11 @@ export default function SignUp() {
                   {errors.login?.message}
                 </label>
               )}
+              {reduxError.error.message === "Login is registered" && (
+                <label className={styles.Validation}>
+                  {reduxError.error.message}
+                </label>
+              )}
             </fieldset>
             <fieldset className={styles.Fieldset}>
               <label className={styles.Label} htmlFor="email">
@@ -109,6 +122,11 @@ export default function SignUp() {
               {errors.email && (
                 <label className={styles.Validation}>
                   {errors.email?.message}
+                </label>
+              )}
+              {reduxError.error.message === "Email is registered" && (
+                <label className={styles.Validation}>
+                  {reduxError.error.message}
                 </label>
               )}
             </fieldset>

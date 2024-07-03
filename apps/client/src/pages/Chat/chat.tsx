@@ -109,7 +109,7 @@ export default function Chat() {
 
   async function logoutUser() {
     dispatch(logout()).then(() => {
-      navigate("/login");
+      navigate("/signin");
     });
   }
 
