@@ -115,7 +115,7 @@ export const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.auth = true;
         state.accessToken = action.payload?.accessToken;
-        state.status = "idle";
+        state.status = "success";
         state.error = "";
       })
       .addCase(login.rejected, (state) => {
@@ -129,7 +129,7 @@ export const authSlice = createSlice({
         state.error = "";
       })
       .addCase(register.fulfilled, (state) => {
-        state.status = "idle";
+        state.status = "success";
         state.error = "";
       })
       .addCase(register.rejected, (state, action) => {
@@ -149,7 +149,7 @@ export const authSlice = createSlice({
       .addCase(isAuth.fulfilled, (state) => {
         state.auth = true;
         state.accessToken;
-        state.status = "idle";
+        state.status = "success";
         state.error = "";
       })
       .addCase(isAuth.rejected, (state) => {

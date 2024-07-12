@@ -2,10 +2,13 @@ import { Controller, Get, Param, Body, Delete, Put } from '@nestjs/common';
 
 import { UserService } from './user.service';
 
-import { User } from '@packages/database';
-
 import { JwtPayload } from '../auth/interfaces/tokens.interface';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
+import {
+  UserUpdateEmailDto,
+  UserUpdateNameDto,
+  UserUpdatePasswordDto,
+} from './dto/user.dto';
 
 @Controller('user')
 export class UserController {
@@ -26,14 +29,37 @@ export class UserController {
     return this.userService.getUser(id);
   }
 
-  @Put()
-  async updateUser(
+  @Put('update-username')
+  async updateUserName(
     @CurrentUser() user: JwtPayload,
-    @Body() dataUser: Partial<User>,
+    @Body() dataUser: UserUpdateNameDto,
   ) {
-    return this.userService.updateUser(user, dataUser);
+    const response = await this.userService.updateUserName(user, dataUser);
+
+    return response;
   }
 
+  @Put('update-email')
+  async updateUserEmail(
+    @CurrentUser() user: JwtPayload,
+    @Body() dataUser: UserUpdateEmailDto,
+  ) {
+    const response = await this.userService.updateUserEmail(user, dataUser);
+
+    return response;
+  }
+
+  @Put('update-password')
+  async updateUserPassword(
+    @CurrentUser() user: JwtPayload,
+    @Body() dataUser: UserUpdatePasswordDto,
+  ) {
+    const response = await this.userService.updateUserPassword(user, dataUser);
+
+    return response;
+  }
+
+  @Put()
   @Delete()
   async deleteUser(@CurrentUser() user: JwtPayload) {
     return this.userService.deleteUser(user);

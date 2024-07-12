@@ -5,9 +5,14 @@ import { PrismaService } from '../../config/database/prisma.service';
 import { User } from '@packages/database';
 import { User as UserModel } from '@packages/database';
 
-import { genSaltSync, hashSync } from 'bcrypt';
+import { compareSync, genSaltSync, hashSync } from 'bcrypt';
 
 import { JwtPayload } from '../auth/interfaces/tokens.interface';
+import {
+  UserUpdateEmailDto,
+  UserUpdateNameDto,
+  UserUpdatePasswordDto,
+} from './dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -75,7 +80,7 @@ export class UserService {
     }
   }
 
-  async updateUser(user: JwtPayload, userData: Partial<User>) {
+  async updateUserName(user: JwtPayload, userData: UserUpdateNameDto) {
     const { lastName, firstName } = userData;
 
     const getUser = this.prisma.user.findMany({
@@ -92,6 +97,76 @@ export class UserService {
     const updateUser = await this.prisma.user.update({
       where: { id: user.id },
       data: { lastName: lastName, firstName: firstName },
+      select: {
+        id: true,
+        email: true,
+        lastName: true,
+        firstName: true,
+        avatar: true,
+        dataActive: true,
+        dataRegistrate: true,
+        roles: true,
+      },
+    });
+
+    return updateUser;
+  }
+
+  async updateUserEmail(user: JwtPayload, userData: UserUpdateEmailDto) {
+    const { email, password } = userData;
+
+    const getUser = await this.prisma.user.findUnique({
+      where: { id: user.id },
+    });
+
+    if (!getUser || !compareSync(password, getUser.password)) {
+      throw new HttpException('Неверные данные', HttpStatus.BAD_REQUEST);
+    }
+
+    const updateUser = await this.prisma.user.update({
+      where: { id: user.id },
+      data: { email: email },
+      select: {
+        id: true,
+        email: true,
+        lastName: true,
+        firstName: true,
+        avatar: true,
+        dataActive: true,
+        dataRegistrate: true,
+        roles: true,
+      },
+    });
+
+    return updateUser;
+  }
+
+  async updateUserPassword(user: JwtPayload, userData: UserUpdatePasswordDto) {
+    const { newPassword, oldPassword } = userData;
+
+    const getUser = await this.prisma.user.findUnique({
+      where: { id: user.id },
+    });
+
+    if (!getUser || !compareSync(oldPassword, getUser.password)) {
+      throw new HttpException('Неверные данные', HttpStatus.BAD_REQUEST);
+    }
+
+    const passwordHash = hashSync(newPassword, genSaltSync(10));
+
+    const updateUser = await this.prisma.user.update({
+      where: { id: user.id },
+      data: { password: passwordHash },
+      select: {
+        id: true,
+        email: true,
+        lastName: true,
+        firstName: true,
+        avatar: true,
+        dataActive: true,
+        dataRegistrate: true,
+        roles: true,
+      },
     });
 
     return updateUser;
