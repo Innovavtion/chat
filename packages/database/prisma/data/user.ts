@@ -6,6 +6,9 @@ import { genSaltSync, hashSync } from "bcrypt";
 export const seedUser = async (
   prisma: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>
 ) => {
+  const uniqueLogin = faker.helpers.uniqueArray(faker.person.firstName, 100);
+  const uniqueEmail = faker.helpers.uniqueArray(faker.internet.email, 100);
+
   await prisma.user.create({
     data: {
       login: "admin",
@@ -17,11 +20,11 @@ export const seedUser = async (
     },
   });
 
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 100; i++) {
     await prisma.user.create({
       data: {
-        login: faker.person.lastName(),
-        email: faker.internet.email(),
+        login: uniqueLogin[i],
+        email: uniqueEmail[i],
         password: hashSync("user", genSaltSync(10)),
         lastName: faker.person.lastName(),
         firstName: faker.person.firstName(),

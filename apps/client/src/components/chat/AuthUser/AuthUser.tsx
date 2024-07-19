@@ -43,7 +43,7 @@ export default function AuthUser() {
           <Avatar
             size="4"
             src={userInfo.user?.avatar}
-            fallback="A"
+            fallback={userInfo.user?.firstName.charAt(0)}
             radius="full"
           />
         </Skeleton>

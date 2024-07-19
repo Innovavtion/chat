@@ -187,7 +187,7 @@ export default function UserModal() {
                     size="8"
                     src={userInfo.user?.avatar}
                     radius="full"
-                    fallback="A"
+                    fallback={userInfo.user?.firstName.charAt(0)}
                   />
                   <Box
                     style={{

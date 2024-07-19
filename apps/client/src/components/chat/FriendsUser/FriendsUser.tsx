@@ -10,35 +10,57 @@ import {
   ScrollArea,
   Tabs,
   TextField,
+  DropdownMenu,
 } from "@radix-ui/themes";
-import { PersonIcon } from "@radix-ui/react-icons";
+import {
+  CheckIcon,
+  Cross2Icon,
+  PersonIcon,
+  DotsVerticalIcon,
+} from "@radix-ui/react-icons";
 
 import styles from "./friendsuser.module.css";
-
-const UserFriends: Array = [
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-  { firstName: "Hello", lastName: "Hello", userStatus: "В сети" },
-];
+import { useAppDispatch } from "@/store/store";
+import { useEffect } from "react";
+import {
+  acceptInvite,
+  getFriendsUser,
+  getInviteUser,
+  selectFriends,
+  rejectInvite,
+  deleteFriend,
+  searchCurrentFriends,
+  searchCurrentInvites,
+} from "@/store/slice/friends.slice";
+import { useSelector } from "react-redux";
+import { Friend } from "@/services/friends.service";
 
 export default function FriendsUser() {
+  const dispatch = useAppDispatch();
+  const friends = useSelector(selectFriends);
+
+  useEffect(() => {
+    dispatch(getFriendsUser());
+    dispatch(getInviteUser());
+  }, [dispatch]);
+
+  const acceptInviteInFriendsUser = (user: Friend) => {
+    dispatch(acceptInvite(user));
+  };
+
+  const rejectInviteInFriendsUser = (user: Friend) => {
+    dispatch(rejectInvite(user));
+  };
+
+  function deleteFriendIsFriend(user: Friend) {
+    dispatch(deleteFriend(user));
+  }
+
+  function searchCurrentFriendAndInvites(text: string) {
+    dispatch(searchCurrentFriends(text));
+    dispatch(searchCurrentInvites(text));
+  }
+
   return (
     <Box className={styles.SectionFriends}>
       <Box
@@ -53,6 +75,7 @@ export default function FriendsUser() {
           className={styles.SearchFriends}
           size="3"
           placeholder="Search Friends"
+          onChange={(e) => searchCurrentFriendAndInvites(e.target.value)}
         >
           <TextField.Slot>
             <PersonIcon />
@@ -85,28 +108,126 @@ export default function FriendsUser() {
                   width: "100%",
                 }}
               >
-                {UserFriends.map((user, index) => (
-                  <Box>
-                    <Card>
-                      <Flex gap="3" align="center">
-                        <Avatar
-                          size="3"
-                          src="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?&w=64&h=64&dpr=2&q=70&crop=focalpoint&fp-x=0.67&fp-y=0.5&fp-z=1.4&fit=crop"
-                          radius="full"
-                          fallback="T"
-                        />
-                        <Box>
-                          <Text as="div" size="2" weight="bold">
-                            Имя Фамилия
-                          </Text>
-                          <Text as="div" className={styles.UserStatus} size="2">
-                            В сети
-                          </Text>
-                        </Box>
-                      </Flex>
-                    </Card>
-                  </Box>
-                ))}
+                {friends.friends.searchList !== null && (
+                  <>
+                    {friends.friends?.searchList?.map((user) => (
+                      <Box key={user.id}>
+                        <Card>
+                          <Flex gap="3" align="center" justify="between">
+                            <Box
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                              }}
+                            >
+                              <Avatar
+                                size="3"
+                                src={user.avatar}
+                                radius="full"
+                                fallback={user.firstName.charAt(0)}
+                              />
+                              <Box style={{ margin: "0 0 0 12px" }}>
+                                <Text as="div" size="2" weight="bold">
+                                  {user.firstName + " " + user.lastName}
+                                </Text>
+                                <Text
+                                  as="div"
+                                  className={styles.UserStatus}
+                                  size="2"
+                                >
+                                  В сети
+                                </Text>
+                              </Box>
+                            </Box>
+                            <Box>
+                              <DropdownMenu.Root>
+                                <DropdownMenu.Trigger>
+                                  <Button
+                                    className={styles.ButtonInfoChat}
+                                    color="gray"
+                                    variant="outline"
+                                  >
+                                    <DotsVerticalIcon />
+                                  </Button>
+                                </DropdownMenu.Trigger>
+                                <DropdownMenu.Content align="center">
+                                  <DropdownMenu.Item>Write</DropdownMenu.Item>
+                                  <DropdownMenu.Separator />
+                                  <DropdownMenu.Item
+                                    color="red"
+                                    onClick={() => deleteFriendIsFriend(user)}
+                                  >
+                                    Delete
+                                  </DropdownMenu.Item>
+                                </DropdownMenu.Content>
+                              </DropdownMenu.Root>
+                            </Box>
+                          </Flex>
+                        </Card>
+                      </Box>
+                    ))}
+                  </>
+                )}
+                {friends.friends?.searchList === null && (
+                  <>
+                    {friends.friends?.friendsList?.map((user) => (
+                      <Box key={user.id}>
+                        <Card>
+                          <Flex gap="3" align="center" justify="between">
+                            <Box
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                              }}
+                            >
+                              <Avatar
+                                size="3"
+                                src={user.avatar}
+                                radius="full"
+                                fallback={user.firstName.charAt(0)}
+                              />
+                              <Box style={{ margin: "0 0 0 12px" }}>
+                                <Text as="div" size="2" weight="bold">
+                                  {user.firstName + " " + user.lastName}
+                                </Text>
+                                <Text
+                                  as="div"
+                                  className={styles.UserStatus}
+                                  size="2"
+                                >
+                                  В сети
+                                </Text>
+                              </Box>
+                            </Box>
+                            <Box>
+                              <DropdownMenu.Root>
+                                <DropdownMenu.Trigger>
+                                  <Button
+                                    className={styles.ButtonInfoChat}
+                                    color="gray"
+                                    variant="outline"
+                                  >
+                                    <DotsVerticalIcon />
+                                  </Button>
+                                </DropdownMenu.Trigger>
+                                <DropdownMenu.Content align="center">
+                                  <DropdownMenu.Item>Write</DropdownMenu.Item>
+                                  <DropdownMenu.Separator />
+                                  <DropdownMenu.Item
+                                    color="red"
+                                    onClick={() => deleteFriendIsFriend(user)}
+                                  >
+                                    Delete
+                                  </DropdownMenu.Item>
+                                </DropdownMenu.Content>
+                              </DropdownMenu.Root>
+                            </Box>
+                          </Flex>
+                        </Card>
+                      </Box>
+                    ))}
+                  </>
+                )}
               </Box>
             </Tabs.Content>
 
@@ -119,42 +240,118 @@ export default function FriendsUser() {
                   width: "100%",
                 }}
               >
-                {UserFriends.map((user, index) => (
-                  <Box>
-                    <Card>
-                      <Flex gap="3" align="center" justify="between">
-                        <Box
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Avatar
-                            size="3"
-                            src="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?&w=64&h=64&dpr=2&q=70&crop=focalpoint&fp-x=0.67&fp-y=0.5&fp-z=1.4&fit=crop"
-                            radius="full"
-                            fallback="T"
-                          />
-                          <Box style={{ margin: "0 0 0 12px" }}>
-                            <Text as="div" size="2" weight="bold">
-                              Имя Фамилия
-                            </Text>
-                            <Text
-                              as="div"
-                              className={styles.UserStatus}
-                              size="2"
+                {friends.invites?.searchList === null && (
+                  <>
+                    {friends.invites?.invitesList?.map((user) => (
+                      <Box key={user.id}>
+                        <Card>
+                          <Flex gap="3" align="center" justify="between">
+                            <Box
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                maxWidth: "180px",
+                              }}
                             >
-                              В сети
-                            </Text>
-                          </Box>
-                        </Box>
-                        <Box>
-                          <Button size="1">Accepte</Button>
-                        </Box>
-                      </Flex>
-                    </Card>
-                  </Box>
-                ))}
+                              <Avatar
+                                size="3"
+                                src={user.avatar}
+                                radius="full"
+                                fallback={user.firstName.charAt(0)}
+                              />
+                              <Box style={{ margin: "0 0 0 12px" }}>
+                                <Text as="div" size="2" weight="bold">
+                                  {user.firstName + " " + user.lastName}
+                                </Text>
+                                <Text
+                                  as="div"
+                                  className={styles.UserStatus}
+                                  size="2"
+                                >
+                                  В сети
+                                </Text>
+                              </Box>
+                            </Box>
+                            <Box>
+                              <Button
+                                size="1"
+                                color="red"
+                                mr={"1"}
+                                variant="outline"
+                                onClick={() => rejectInviteInFriendsUser(user)}
+                              >
+                                <Cross2Icon />
+                              </Button>
+                              <Button
+                                size="1"
+                                variant="outline"
+                                onClick={() => acceptInviteInFriendsUser(user)}
+                              >
+                                <CheckIcon />
+                              </Button>
+                            </Box>
+                          </Flex>
+                        </Card>
+                      </Box>
+                    ))}
+                  </>
+                )}
+                {friends.invites?.searchList !== null && (
+                  <>
+                    {friends.invites?.searchList?.map((user) => (
+                      <Box key={user.id}>
+                        <Card>
+                          <Flex gap="3" align="center" justify="between">
+                            <Box
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                maxWidth: "180px",
+                              }}
+                            >
+                              <Avatar
+                                size="3"
+                                src={user.avatar}
+                                radius="full"
+                                fallback={user.firstName.charAt(0)}
+                              />
+                              <Box style={{ margin: "0 0 0 12px" }}>
+                                <Text as="div" size="2" weight="bold">
+                                  {user.firstName + " " + user.lastName}
+                                </Text>
+                                <Text
+                                  as="div"
+                                  className={styles.UserStatus}
+                                  size="2"
+                                >
+                                  В сети
+                                </Text>
+                              </Box>
+                            </Box>
+                            <Box>
+                              <Button
+                                size="1"
+                                color="red"
+                                mr={"1"}
+                                variant="outline"
+                                onClick={() => rejectInviteInFriendsUser(user)}
+                              >
+                                <Cross2Icon />
+                              </Button>
+                              <Button
+                                size="1"
+                                variant="outline"
+                                onClick={() => acceptInviteInFriendsUser(user)}
+                              >
+                                <CheckIcon />
+                              </Button>
+                            </Box>
+                          </Flex>
+                        </Card>
+                      </Box>
+                    ))}
+                  </>
+                )}
               </Box>
             </Tabs.Content>
           </Box>
