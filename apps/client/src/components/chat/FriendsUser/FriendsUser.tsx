@@ -34,14 +34,26 @@ import {
 } from "@/store/slice/friends.slice";
 import { useSelector } from "react-redux";
 import { Friend } from "@/services/friends.service";
+import {
+  addMessageChat,
+  getChatUser,
+  getCurrentChatsUser,
+  getCurrentChatUser,
+  selectDialog,
+} from "@/store/slice/dialog.slice";
+import { SocketService } from "@/services/socket/socket.service";
+import { selectUser } from "@/store/slice/user.slice";
 
 export default function FriendsUser() {
   const dispatch = useAppDispatch();
+  const userAuth = useSelector(selectUser);
   const friends = useSelector(selectFriends);
+  const dialog = useSelector(selectDialog);
 
   useEffect(() => {
     dispatch(getFriendsUser());
     dispatch(getInviteUser());
+    dispatch(getCurrentChatsUser());
   }, [dispatch]);
 
   const acceptInviteInFriendsUser = (user: Friend) => {
@@ -59,6 +71,39 @@ export default function FriendsUser() {
   function searchCurrentFriendAndInvites(text: string) {
     dispatch(searchCurrentFriends(text));
     dispatch(searchCurrentInvites(text));
+  }
+
+  function getCurrentUserDialog(user: Friend) {
+    if (user.id !== dialog.currentChatUser?.id) {
+      dispatch(getCurrentChatUser(user));
+
+      dialog.chats?.map((e) => {
+        if (e.particapants[0].userId === user.id) {
+          dispatch(getChatUser(e)).then(() => {
+            if (dialog.chat !== null) {
+              SocketService.leaveChat(dialog.chat?.id);
+              SocketService.disconnect();
+
+              SocketService.connect();
+              SocketService.joinChat(e.id);
+              SocketService.subscribeCreateMessage((data) => {
+                if (userAuth.user?.id !== data.userId) {
+                  dispatch(addMessageChat(data));
+                }
+              });
+            } else {
+              SocketService.connect();
+              SocketService.joinChat(e.id);
+              SocketService.subscribeCreateMessage((data) => {
+                if (userAuth.user?.id !== data.userId) {
+                  dispatch(addMessageChat(data));
+                }
+              });
+            }
+          });
+        }
+      });
+    }
   }
 
   return (
@@ -171,7 +216,10 @@ export default function FriendsUser() {
                 {friends.friends?.searchList === null && (
                   <>
                     {friends.friends?.friendsList?.map((user) => (
-                      <Box key={user.id}>
+                      <Box
+                        key={user.id}
+                        onClick={() => getCurrentUserDialog(user)}
+                      >
                         <Card>
                           <Flex gap="3" align="center" justify="between">
                             <Box
@@ -187,7 +235,15 @@ export default function FriendsUser() {
                                 fallback={user.firstName.charAt(0)}
                               />
                               <Box style={{ margin: "0 0 0 12px" }}>
-                                <Text as="div" size="2" weight="bold">
+                                <Text
+                                  as="div"
+                                  size="2"
+                                  weight="bold"
+                                  color={
+                                    user.id === dialog.currentChatUser?.id &&
+                                    "blue"
+                                  }
+                                >
                                   {user.firstName + " " + user.lastName}
                                 </Text>
                                 <Text

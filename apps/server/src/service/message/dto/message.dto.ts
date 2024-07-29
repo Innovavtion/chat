@@ -8,6 +8,10 @@ export class CreateMessageDto {
   @IsString()
   @IsNotEmpty()
   message: string;
+
+  @IsString()
+  @IsNotEmpty()
+  otherUserId: string;
 }
 
 export class UpdateMessageDto {

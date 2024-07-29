@@ -2,20 +2,28 @@ import { Box, Avatar, Text, Button, DropdownMenu } from "@radix-ui/themes";
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 
 import styles from "./infouser.module.css";
+import { useSelector } from "react-redux";
+import { selectDialog } from "@/store/slice/dialog.slice";
+import { useAppDispatch } from "@/store/store";
 
 export default function InfoUser() {
+  const dispatch = useAppDispatch();
+  const dialog = useSelector(selectDialog);
+
   return (
     <Box className={styles.SectionInfoFriends}>
       <Box className={styles.SectionUser}>
         <Avatar
           size="4"
-          src="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?&w=64&h=64&dpr=2&q=70&crop=focalpoint&fp-x=0.67&fp-y=0.5&fp-z=1.4&fit=crop"
-          fallback="A"
+          src={dialog.currentChatUser?.avatar}
+          fallback={dialog.currentChatUser?.firstName.charAt(0)}
           radius="full"
         />
         <Box className={styles.YourInfo}>
           <Text className={styles.Fio} size="3" weight="bold">
-            Имя Фамилия
+            {dialog.currentChatUser?.firstName +
+              " " +
+              dialog.currentChatUser?.lastName}
           </Text>
           <Text className={styles.UserStatus} size="2">
             В сети
@@ -34,9 +42,6 @@ export default function InfoUser() {
             </Button>
           </DropdownMenu.Trigger>
           <DropdownMenu.Content align="center">
-            <DropdownMenu.Item>Edit</DropdownMenu.Item>
-            <DropdownMenu.Item>Archive</DropdownMenu.Item>
-            <DropdownMenu.Separator />
             <DropdownMenu.Item color="red">Delete</DropdownMenu.Item>
           </DropdownMenu.Content>
         </DropdownMenu.Root>

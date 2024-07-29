@@ -48,14 +48,13 @@ export class ChatService {
         where: { id: Number(chatId) },
         include: {
           messages: {
-            orderBy: { id: 'desc' },
-            take: 2,
-            select: { text: true, dataWrite: true },
+            orderBy: { dataWrite: 'asc' },
+            select: { userId: true, text: true, dataWrite: true },
           },
         },
       });
 
-      return getContentChat;
+      return getContentChat[0];
     }
 
     throw new HttpException(
