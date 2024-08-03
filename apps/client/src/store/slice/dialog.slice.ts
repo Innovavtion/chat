@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+
 import { Friend } from "@/services/friends.service";
 import {
   Chat,
@@ -9,6 +10,7 @@ import {
   getChatsUser,
   getCurrentChat,
 } from "@/services/chat.service";
+
 import axios from "axios";
 
 interface Dialog {

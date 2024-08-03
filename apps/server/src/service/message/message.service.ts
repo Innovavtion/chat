@@ -127,7 +127,7 @@ export class MessageService {
       const createChatMessage = await this.prisma.message.create({
         data: {
           userId: user.id,
-          chatId: Number(messageDto.chatId),
+          chatId: newChat.id,
           text: messageDto.message,
           dataWrite: new Date(),
         },

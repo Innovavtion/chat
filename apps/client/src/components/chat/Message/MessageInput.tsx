@@ -7,13 +7,18 @@ import {
 } from "@radix-ui/themes";
 import { FaceIcon, PaperPlaneIcon } from "@radix-ui/react-icons";
 
-import styles from "./input.module.css";
+import styles from "./message.module.css";
 import { useAppDispatch } from "@/store/store";
 import { CreateMessage } from "@/services/chat.service";
-import { createMessageChat, selectDialog } from "@/store/slice/dialog.slice";
+import {
+  addMessageChat,
+  createMessageChat,
+  selectDialog,
+} from "@/store/slice/dialog.slice";
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import { SocketService } from "@/services/socket/socket.service";
+import { selectUser } from "@/store/slice/user.slice";
 
 const ChatEmoji: Array = [
   { emoji: "🤣" },
@@ -61,23 +66,16 @@ export default function Input() {
   return (
     <Box className={styles.SectionInputMessage}>
       <TextArea
+        className={styles.TextAreaMessage}
         placeholder="Write message"
-        style={{
-          width: "100%",
-          minHeight: "25px",
-          height: "100%",
-          boxShadow: "none",
-        }}
         value={text}
         onChange={(e) => setText(e.currentTarget.value)}
-        className={styles.TextAreaMessage}
         size="3"
       />
       <Box style={{ display: "flex" }}>
         <DropdownMenu.Root>
           <DropdownMenu.Trigger>
             <Button
-              style={{ height: "100%", boxShadow: "none" }}
               className={styles.ButtonMessage}
               variant="outline"
               color="gray"
@@ -105,9 +103,8 @@ export default function Input() {
           </DropdownMenu.Content>
         </DropdownMenu.Root>
         <Button
-          onClick={() => createMessage()}
-          style={{ height: "100%", boxShadow: "none" }}
           className={styles.ButtonMessage}
+          onClick={() => createMessage()}
           variant="outline"
           color="gray"
         >

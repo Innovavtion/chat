@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+
 import {
   SignInData,
   SignUpData,
@@ -8,6 +9,7 @@ import {
   logout as Logout,
   isAuth as IsAuth,
 } from "@/services/auth.service";
+
 import axios from "axios";
 
 const accessToken: string | null = localStorage.getItem("accessToken")

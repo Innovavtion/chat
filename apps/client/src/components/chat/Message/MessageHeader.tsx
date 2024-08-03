@@ -1,13 +1,12 @@
+import { useSelector } from "react-redux";
+import { selectDialog } from "@/store/slice/dialog.slice";
+
 import { Box, Avatar, Text, Button, DropdownMenu } from "@radix-ui/themes";
 import { DotsVerticalIcon } from "@radix-ui/react-icons";
 
-import styles from "./infouser.module.css";
-import { useSelector } from "react-redux";
-import { selectDialog } from "@/store/slice/dialog.slice";
-import { useAppDispatch } from "@/store/store";
+import styles from "./message.module.css";
 
 export default function InfoUser() {
-  const dispatch = useAppDispatch();
   const dialog = useSelector(selectDialog);
 
   return (
@@ -20,10 +19,8 @@ export default function InfoUser() {
           radius="full"
         />
         <Box className={styles.YourInfo}>
-          <Text className={styles.Fio} size="3" weight="bold">
-            {dialog.currentChatUser?.firstName +
-              " " +
-              dialog.currentChatUser?.lastName}
+          <Text size="3" weight="bold">
+            {`${dialog.currentChatUser?.firstName} ${dialog.currentChatUser?.lastName}`}
           </Text>
           <Text className={styles.UserStatus} size="2">
             В сети

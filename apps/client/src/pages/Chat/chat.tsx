@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
 import { selectDialog } from "@/store/slice/dialog.slice";
 
-import AuthUser from "@/components/chat/AuthUser/AuthUser";
-import FriendsUser from "@/components/chat/FriendsUser/FriendsUser";
-import InfoUser from "@/components/chat/InfoFriends/InfoUser";
+import User from "@/components/chat/User/User";
+import Friends from "@/components/chat/Friends/Friends";
 import Message from "@/components/chat/Message/Message";
-import Input from "@/components/chat/Input/Input";
+import MessageHeader from "@/components/chat/Message/MessageHeader";
+import MessageInput from "@/components/chat/Message/MessageInput";
 
 import { Box } from "@radix-ui/themes";
 
@@ -15,26 +15,20 @@ export default function Chat() {
   const dialog = useSelector(selectDialog);
 
   return (
-    <div className={styles.Container}>
+    <Box className={styles.Container}>
       <Box className={styles.BoxChat}>
         <Box className={styles.SectionInfoChat}>
-          <AuthUser />
-          <FriendsUser />
+          <User />
+          <Friends />
         </Box>
         {dialog.currentChatUser !== null && (
-          <>
-            <Box className={styles.SectionChatMessage}>
-              {dialog.currentChatUser !== null && (
-                <>
-                  <InfoUser />
-                  <Message />
-                  <Input />
-                </>
-              )}
-            </Box>
-          </>
+          <Box className={styles.SectionChatMessage}>
+            <MessageHeader />
+            <Message />
+            <MessageInput />
+          </Box>
         )}
       </Box>
-    </div>
+    </Box>
   );
 }

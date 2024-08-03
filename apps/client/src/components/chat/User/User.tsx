@@ -1,16 +1,18 @@
-import { Box, Text, Avatar, Skeleton } from "@radix-ui/themes";
-import { ExitIcon } from "@radix-ui/react-icons";
-import UserModal from "@/components/modal/user/userModal";
+import { useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "@/store/store";
-
-import { logout } from "@/store/slice/auth.slice";
-
-import styles from "./authuser.module.css";
 import { useSelector } from "react-redux";
-import { getAuthUserInfo, selectUser } from "../../../store/slice/user.slice";
-import { useEffect } from "react";
+
+import { useAppDispatch } from "@/store/store";
+import { logout } from "@/store/slice/auth.slice";
+import { getAuthUserInfo, selectUser } from "@/store/slice/user.slice";
+
+import UserModal from "@/components/modal/user/userModal";
+
+import { Box, Text, Avatar, Skeleton } from "@radix-ui/themes";
+import { ExitIcon } from "@radix-ui/react-icons";
+
+import styles from "./user.module.css";
 
 export default function AuthUser() {
   const navigate = useNavigate();
@@ -28,30 +30,20 @@ export default function AuthUser() {
   }
 
   return (
-    <Box
-      className={styles.SectionUser}
-      style={{ justifyContent: "space-between" }}
-    >
-      <Box
-        style={{
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-        }}
-      >
+    <Box className={styles.SectionUser}>
+      <Box className={styles.ContentUser}>
         <Skeleton loading={userInfo.status === "loading" ? true : false}>
           <Avatar
             size="4"
+            radius="full"
             src={userInfo.user?.avatar}
             fallback={userInfo.user?.firstName.charAt(0)}
-            radius="full"
           />
         </Skeleton>
         <Box className={styles.YourInfo}>
-          <Text className={styles.Fio} size="3" weight="bold">
+          <Text size="3" weight="bold">
             <Skeleton loading={userInfo.status === "loading" ? true : false}>
-              {userInfo.user?.firstName + " "}
-              {userInfo.user?.lastName}
+              {`${userInfo.user?.firstName} ${userInfo.user?.lastName}`}
             </Skeleton>
           </Text>
           <Text className={styles.UserStatus} size="2">
@@ -61,16 +53,7 @@ export default function AuthUser() {
           </Text>
         </Box>
       </Box>
-      <Box
-        style={{
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          gap: "0 15px",
-          alignContent: "flex-end",
-          marginRight: "10px",
-        }}
-      >
+      <Box className={styles.Settings}>
         <ExitIcon
           width="20"
           height="20"

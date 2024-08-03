@@ -1,0 +1,33 @@
+.UserStatus {
+  color: var(--accent-10);
+  margin-top: 1px;
+}
+
+.SectionFriends {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  max-width: 275px;
+  padding: 5px 0 0 0;
+}
+
+.SearchFriends {
+  width: calc(100% + 100px);
+}
+
+.UserFriends {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  max-height: 676px;
+}
+
+.ButtonInfoChat {
+  padding-left: var(--space-1);
+  padding-right: var(--space-1);
+  cursor: pointer;
+  box-shadow: none;
+}

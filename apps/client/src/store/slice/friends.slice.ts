@@ -231,7 +231,7 @@ export const friendsSlice = createSlice({
             .includes(action.payload.toLowerCase())
         );
       } else {
-        state.friends.searchList = null;
+        state.friends.searchList = state.friends.friendsList;
       }
     },
     searchCurrentInvites: (state, action) => {
@@ -242,7 +242,7 @@ export const friendsSlice = createSlice({
             .includes(action.payload.toLowerCase())
         );
       } else {
-        state.invites.searchList = null;
+        state.invites.searchList = state.friends.friendsList;
       }
     },
     searchCurrentNewFriends: (state, action) => {
@@ -282,9 +282,11 @@ export const friendsSlice = createSlice({
       })
       .addCase(getFriendsUser.fulfilled, (state, action) => {
         state.friends.friendsList = action.payload;
+        state.friends.searchList = action.payload;
       })
       .addCase(getInviteUser.fulfilled, (state, action) => {
         state.invites.invitesList = action.payload;
+        state.invites.searchList = action.payload;
       })
       .addCase(acceptInvite.pending, (state) => {
         state.status = "idle";
