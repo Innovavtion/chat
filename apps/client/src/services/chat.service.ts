@@ -22,6 +22,7 @@ export type CreateMessage = {
 
 export type Chat = {
   id: string;
+  typing: { userId: string; isTyping: boolean };
   messages: Array<Message>;
 };
 

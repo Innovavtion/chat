@@ -1,0 +1,19 @@
+meta {
+  name: Upload avatar
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{baseUrl}}/user/avatar/upload
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVjYTQ5MWExLWFiNWItNDQ1ZS04ZWYzLTBkNTQxOGYyZGFiOSIsImVtYWlsIjoiYWRtaW5AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcyMjk1NjY2NywiZXhwIjoxNzIyOTU3MjY3fQ.t37op3LWpTbhkDg3OBtKW_vacYoWJVaZ2V5v6U-Un9U
+}
+
+body:multipart-form {
+  file: @file(C:\Users\Nikita\Downloads\hello.png)
+}

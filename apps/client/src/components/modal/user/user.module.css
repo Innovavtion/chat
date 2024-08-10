@@ -1,3 +1,31 @@
+.InputUploadAvatar {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+}
+
+.UploadAvatar::before {
+  opacity: 0;
+  content: "";
+  position: absolute;
+  transition: opacity 125ms linear;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.UploadAvatar:hover::before {
+  opacity: 1;
+}
+
+.UploadAvatar {
+  position: relative;
+  cursor: pointer;
+}
+
 .Validation {
   padding-top: 2px;
   font-size: small;

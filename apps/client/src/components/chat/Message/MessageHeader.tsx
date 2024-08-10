@@ -23,7 +23,7 @@ export default function InfoUser() {
             {`${dialog.currentChatUser?.firstName} ${dialog.currentChatUser?.lastName}`}
           </Text>
           <Text className={styles.UserStatus} size="2">
-            В сети
+            {!dialog.chat?.typing.isTyping ? "В сети" : `Writing message...`}
           </Text>
         </Box>
       </Box>

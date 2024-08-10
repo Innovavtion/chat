@@ -12,11 +12,13 @@ import { useAppDispatch } from "@/store/store";
 import { CreateMessage } from "@/services/chat.service";
 import {
   addMessageChat,
+  clearTypingMessageChat,
   createMessageChat,
   selectDialog,
+  typingMessageChat,
 } from "@/store/slice/dialog.slice";
 import { useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SocketService } from "@/services/socket/socket.service";
 import { selectUser } from "@/store/slice/user.slice";
 
@@ -47,6 +49,7 @@ export default function Input() {
   const [text, setText] = useState<string>("");
 
   const dispatch = useAppDispatch();
+  const userAuth = useSelector(selectUser);
   const dialog = useSelector(selectDialog);
 
   function createMessage() {
@@ -62,6 +65,24 @@ export default function Input() {
       setText("");
     }
   }
+
+  useEffect(() => {
+    if (text.length !== 0) {
+      const data = {
+        chatId: dialog.chat?.id,
+        userId: userAuth.user?.id,
+        isTyping: true,
+      };
+      SocketService.createTypingMessage(data);
+    } else {
+      const data = {
+        chatId: dialog.chat?.id,
+        userId: userAuth.user?.id,
+        isTyping: false,
+      };
+      SocketService.createTypingMessage(data);
+    }
+  }, [text]);
 
   return (
     <Box className={styles.SectionInputMessage}>

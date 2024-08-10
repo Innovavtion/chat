@@ -7,6 +7,8 @@ import { selectUser } from "@/store/slice/user.slice";
 
 import {
   addMessageChat,
+  typingMessageChat,
+  clearCurrentChat,
   getChatUser,
   getCurrentChatsUser,
   getCurrentChatUser,
@@ -74,6 +76,11 @@ export default function FriendsUser() {
 
   function deleteFriendIsFriend(user: Friend) {
     dispatch(deleteFriend(user));
+    dialog.chats?.map((e) => {
+      if (user.id === e.particapants[0].userId) {
+        dispatch(clearCurrentChat());
+      }
+    });
   }
 
   function searchCurrentFriendAndInvites(text: string) {
@@ -99,6 +106,10 @@ export default function FriendsUser() {
                   dispatch(addMessageChat(data));
                 }
               });
+              SocketService.subscribeTypingMessage((data) => {
+                console.log(data);
+                dispatch(typingMessageChat(data));
+              });
             } else {
               SocketService.connect();
               SocketService.joinChat(e.id);
@@ -106,6 +117,10 @@ export default function FriendsUser() {
                 if (userAuth.user?.id !== data.userId) {
                   dispatch(addMessageChat(data));
                 }
+              });
+              SocketService.subscribeTypingMessage((data) => {
+                console.log(data);
+                dispatch(typingMessageChat(data));
               });
             }
           });
@@ -116,13 +131,7 @@ export default function FriendsUser() {
 
   return (
     <Box className={styles.SectionFriends}>
-      <Box
-        style={{
-          display: "flex",
-          width: "calc(100% - 9px)",
-          gap: "5px",
-        }}
-      >
+      <Box className={styles.FriendsHeader}>
         <FriendsModal />
         <TextField.Root
           className={styles.SearchFriends}
@@ -137,7 +146,6 @@ export default function FriendsUser() {
       </Box>
       <ScrollArea
         className={styles.UserFriends}
-        style={{ padding: "0 12px 0 5px", marginTop: "2px" }}
         type="hover"
         scrollbars="vertical"
       >
@@ -153,15 +161,7 @@ export default function FriendsUser() {
 
           <Box pt="3">
             <Tabs.Content value="friends">
-              <Box
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "5px",
-                  width: "100%",
-                  maxWidth: "300px",
-                }}
-              >
+              <Box className={styles.BoxList}>
                 {friends.friends?.searchList?.map((user) => (
                   <Box key={user.id}>
                     <Card
@@ -171,18 +171,11 @@ export default function FriendsUser() {
                       }}
                     >
                       <Flex gap="3" align="center" justify="between">
-                        <Box
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            width: "100%",
-                            maxWidth: "180px",
-                          }}
-                        >
+                        <Box className={styles.CardFriend}>
                           <Avatar
                             size="3"
-                            src={user.avatar}
                             radius="full"
+                            src={user.avatar}
                             fallback={user.firstName.charAt(0)}
                           />
                           <Box style={{ margin: "0 0 0 12px" }}>
@@ -192,7 +185,7 @@ export default function FriendsUser() {
                               weight="bold"
                               style={{ textOverflow: "ellipsis" }}
                             >
-                              {user.firstName + " " + user.lastName}
+                              {`${user.firstName} ${user.lastName}`}
                             </Text>
                             <Text
                               as="div"
@@ -215,7 +208,13 @@ export default function FriendsUser() {
                               </Button>
                             </DropdownMenu.Trigger>
                             <DropdownMenu.Content align="center">
-                              <DropdownMenu.Item>Write</DropdownMenu.Item>
+                              <DropdownMenu.Item
+                                onClick={() => {
+                                  getCurrentUserDialog(user);
+                                }}
+                              >
+                                Write
+                              </DropdownMenu.Item>
                               <DropdownMenu.Separator />
                               <DropdownMenu.Item
                                 color="red"
@@ -234,15 +233,7 @@ export default function FriendsUser() {
             </Tabs.Content>
 
             <Tabs.Content value="invite">
-              <Box
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "5px",
-                  width: "100%",
-                  maxWidth: "300px",
-                }}
-              >
+              <Box className={styles.BoxList}>
                 {friends.invites?.searchList?.map((user) => (
                   <Box key={user.id}>
                     <Card
@@ -271,14 +262,9 @@ export default function FriendsUser() {
                             as="div"
                             size="2"
                             weight="bold"
-                            style={{
-                              width: "100px",
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                            }}
+                            className={styles.FriendName}
                           >
-                            {user.firstName + " " + user.lastName}
+                            {`${user.firstName} ${user.lastName}`}
                           </Text>
                           <Text as="div" className={styles.UserStatus} size="2">
                             В сети

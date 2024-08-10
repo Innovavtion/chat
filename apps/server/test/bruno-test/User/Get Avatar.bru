@@ -1,0 +1,15 @@
+meta {
+  name: Get Avatar
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{baseUrl}}/user/avatar/5efa0752-7dfe-4e67-832f-021f3e490fd5.png
+  body: multipartForm
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVjYTQ5MWExLWFiNWItNDQ1ZS04ZWYzLTBkNTQxOGYyZGFiOSIsImVtYWlsIjoiYWRtaW5AbWFpbC5ydSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTcyMjk2ODQ3MCwiZXhwIjoxNzIyOTY5MDcwfQ.SjZue-axo_FCZWwuFH1LlHRRXFEqrQ-CnqhJioh6104
+}

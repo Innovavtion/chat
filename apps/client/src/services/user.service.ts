@@ -35,6 +35,18 @@ export async function getAuthUser(): Promise<
   return response;
 }
 
+export async function getAvatar(data: string) {
+  const response = await ApiInterceptor.get(`user/avatar/${data}`);
+
+  return response;
+}
+
+export async function updateUserAvatar(file: File) {
+  const response = await ApiInterceptor.post("user/avatar/upload", file);
+
+  return response;
+}
+
 export async function updateUserName(
   DataUser: UpdateUserName
 ): Promise<AxiosResponse<AuthSignUpResponse>> {

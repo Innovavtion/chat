@@ -6,12 +6,13 @@ import {
 import {
   getAuthUserInfo,
   selectUser,
+  updateAvatar,
   updateEmail,
   updateName,
   updatePassword,
 } from "@/store/slice/user.slice";
 import { useAppDispatch } from "@/store/store";
-import { GearIcon } from "@radix-ui/react-icons";
+import { GearIcon, UploadIcon } from "@radix-ui/react-icons";
 import {
   Button,
   Dialog,
@@ -22,7 +23,7 @@ import {
   TextField,
   Tabs,
 } from "@radix-ui/themes";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { useForm } from "react-hook-form";
@@ -139,6 +140,63 @@ function FormPasswordHooks() {
   };
 }
 
+function ValidateAvatar() {
+  const dispatch = useAppDispatch();
+
+  const [avatarValidate, setAvatarValidate] = useState(null);
+  const [errorValidate, serErrorValidate] = useState(null);
+
+  const validateFormat = (file: File) => {
+    const validExtensions = ["png", "jpg", "jpeg"];
+    const fileExtensions = file.type.split("/")[1];
+    return validExtensions.includes(fileExtensions);
+  };
+
+  const validateFileSize = (file: File) => {
+    const fileZise = file.size / 1024 / 1024;
+    if (fileZise > 1) {
+      console.log("file много весит");
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const fileChange = (e) => {
+    const file = e.target.files[0];
+
+    if (validateFormat(file) && validateFileSize(file)) {
+      const readUrl = URL.createObjectURL(file);
+      setAvatarValidate(readUrl);
+    } else {
+      console.log("file не соответсвует требованиям");
+    }
+  };
+
+  const saveAvatar = (e) => {
+    console.log(e);
+    const file = e.target[0].files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    dispatch(updateAvatar(formData));
+  };
+
+  const clearImage = () => {
+    if (avatarValidate !== null) {
+      console.log("clear avatar");
+      setAvatarValidate(null);
+    }
+  };
+
+  return {
+    AvatarData: avatarValidate,
+    ErrorData: errorValidate,
+    FileChange: fileChange,
+    SaveAvatar: saveAvatar,
+    ClearAvatar: clearImage,
+  };
+}
+
 export default function UserModal() {
   const dispatch = useAppDispatch();
   const userInfo = useSelector(selectUser);
@@ -146,13 +204,20 @@ export default function UserModal() {
   const { SubmitName, DataName, ErrorName } = FormNameHooks();
   const { SubmitEmail, DataEmail, ErrorEmail } = FormEmailHooks();
   const { SubmitPassword, DataPassword, ErrorPassword } = FormPasswordHooks();
+  const { AvatarData, FileChange, SaveAvatar, ClearAvatar } = ValidateAvatar();
+
+  const updateAccount = (e) => {
+    e.preventDefault();
+    SubmitName(e);
+    SaveAvatar(e);
+  };
 
   useEffect(() => {
     dispatch(getAuthUserInfo());
   }, [dispatch]);
 
   return (
-    <Dialog.Root>
+    <Dialog.Root onOpenChange={ClearAvatar}>
       <Dialog.Trigger>
         <GearIcon
           width="20"
@@ -181,14 +246,37 @@ export default function UserModal() {
 
           <Box pt="5">
             <Tabs.Content value="account">
-              <form onSubmit={SubmitName}>
+              <form
+                onSubmit={(e) => {
+                  updateAccount(e);
+                }}
+              >
                 <Flex direction="row" gap="3">
-                  <Avatar
-                    size="8"
-                    src={userInfo.user?.avatar}
-                    radius="full"
-                    fallback={userInfo.user?.firstName.charAt(0)}
-                  />
+                  <Box className={styles.BoxUploadAvatar}>
+                    <input
+                      className={styles.InputUploadAvatar}
+                      name="avatar"
+                      type="file"
+                      id="upload_avatar"
+                      accept="image/png"
+                      onChange={(e) => FileChange(e)}
+                    />
+                    <label htmlFor="upload_avatar">
+                      <Box className={styles.BoxAvatar}>
+                        <Avatar
+                          className={styles.UploadAvatar}
+                          size="8"
+                          src={
+                            AvatarData === null
+                              ? userInfo.user?.avatar
+                              : AvatarData
+                          }
+                          radius="full"
+                          fallback={userInfo.user?.firstName.charAt(0)}
+                        />
+                      </Box>
+                    </label>
+                  </Box>
                   <Box
                     style={{
                       display: "flex",

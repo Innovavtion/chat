@@ -88,9 +88,17 @@ export const dialogSlice = createSlice({
   name: "dialog",
   initialState,
   reducers: {
+    clearCurrentChat: (state: Dialog) => {
+      state.chat = null;
+      state.currentChatUser = null;
+    },
     getCurrentChatUser: (state: Dialog, action) => {
       state.chat = null;
       state.currentChatUser = action.payload;
+    },
+    typingMessageChat: (state: Dialog, action) => {
+      state.chat.typing = action.payload;
+      state.chat.typing.isTyping = action.payload.isTyping;
     },
     addMessageChat: (state: Dialog, action) => {
       state.chat?.messages.push(action.payload);
@@ -103,6 +111,10 @@ export const dialogSlice = createSlice({
       })
       .addCase(getChatUser.fulfilled, (state, action) => {
         state.chat = action.payload;
+        state.chat.typing = {
+          userId: state.currentChatUser?.id,
+          isTyping: false,
+        };
       })
       .addCase(getChatUser.pending, (state) => {
         state.chat = null;
@@ -119,7 +131,12 @@ export const dialogSlice = createSlice({
   },
 });
 
-export const { getCurrentChatUser, addMessageChat } = dialogSlice.actions;
+export const {
+  clearCurrentChat,
+  getCurrentChatUser,
+  typingMessageChat,
+  addMessageChat,
+} = dialogSlice.actions;
 
 export const selectDialog = (state: RootState) => state.dialog;
 

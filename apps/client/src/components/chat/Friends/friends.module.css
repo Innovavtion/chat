@@ -1,28 +1,65 @@
-.UserStatus {
-  color: var(--accent-10);
-  margin-top: 1px;
-}
-
 .SectionFriends {
   display: flex;
   flex-direction: column;
   align-items: center;
+
   width: 100%;
   height: 100%;
   max-width: 275px;
-  padding: 5px 0 0 0;
+
+  padding-top: 5px;
+}
+
+.FriendsHeader {
+  display: flex;
+  width: calc(100% - 9px);
+  gap: 5px;
 }
 
 .SearchFriends {
   width: calc(100% + 100px);
 }
 
+.UserStatus {
+  color: var(--accent-10);
+  margin-top: 1px;
+}
+
 .UserFriends {
   display: flex;
   flex-direction: column;
+
   width: 100%;
   height: 100%;
   max-height: 676px;
+
+  padding: 0 12px 0 5px;
+  margin-top: 2px;
+}
+
+.BoxList {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.CardFriend {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  max-width: 180px;
+}
+
+.FriendName {
+  width: 100px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .ButtonInfoChat {

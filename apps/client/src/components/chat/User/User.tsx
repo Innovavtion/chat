@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -36,6 +36,7 @@ export default function AuthUser() {
           <Avatar
             size="4"
             radius="full"
+            key={Date.now()}
             src={userInfo.user?.avatar}
             fallback={userInfo.user?.firstName.charAt(0)}
           />

@@ -20,6 +20,7 @@ export type CreateMessageDto = {
 export type TypingChatUser = {
   chatId: string;
   userId: string;
+  isTyping: boolean;
 };
 
 export type ServerToClientEvents = {

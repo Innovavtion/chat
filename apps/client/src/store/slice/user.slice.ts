@@ -9,6 +9,7 @@ import {
   updateUserEmail,
   UpdateUserPassword,
   updateUserPassword,
+  updateUserAvatar,
 } from "@/services/user.service";
 
 import axios from "axios";
@@ -36,6 +37,25 @@ export const getAuthUserInfo = createAsyncThunk(
 
       if (response.status === 401) {
         throw new Error("Get user error");
+      }
+
+      return response.data;
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        return rejectWithValue(e.response?.data);
+      }
+    }
+  }
+);
+
+export const updateAvatar = createAsyncThunk(
+  "user/update-avatar",
+  async (file: File, { rejectWithValue }) => {
+    try {
+      const response = await updateUserAvatar(file);
+
+      if (response.status === 400) {
+        throw new Error("Update user error");
       }
 
       return response.data;
@@ -123,12 +143,17 @@ export const userSlice = createSlice({
       })
       .addCase(getAuthUserInfo.fulfilled, (state, action) => {
         state.user = action.payload[0];
+        state.user.avatar = `server/user/avatar/${action.payload[0].avatar}`;
         state.status = "success";
         state.error = null;
       })
       .addCase(getAuthUserInfo.rejected, (state) => {
         state.user = null;
         state.status = "failed";
+        state.error = null;
+      })
+      .addCase(updateAvatar.pending, (state) => {
+        state.status = "idle";
         state.error = null;
       })
       .addCase(updateName.pending, (state) => {
@@ -138,6 +163,7 @@ export const userSlice = createSlice({
       })
       .addCase(updateName.fulfilled, (state, action) => {
         state.user = action.payload;
+        state.user.avatar = `server/user/avatar/${action.payload.avatar}`;
         state.status = "success";
         state.error = null;
       })
