@@ -33,7 +33,7 @@ export default function Message() {
                   className={styles.FriendAvatar}
                   size="3"
                   radius="full"
-                  src={dialog.currentChatUser?.avatar}
+                  src={`server/user/avatar/${dialog.currentChatUser?.avatar}`}
                   fallback={dialog.currentChatUser?.firstName.charAt(0)}
                 />
                 <Card className={styles.TextBox}>

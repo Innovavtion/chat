@@ -233,13 +233,13 @@ export default function UserModal() {
 
         <Tabs.Root defaultValue="account">
           <Tabs.List style={{ justifyContent: "center" }}>
-            <Tabs.Trigger value="account" style={{ flexGrow: 1 }}>
+            <Tabs.Trigger value="account" className={styles.TabsTrigger}>
               Account
             </Tabs.Trigger>
-            <Tabs.Trigger value="email" style={{ flexGrow: 1 }}>
+            <Tabs.Trigger value="email" className={styles.TabsTrigger}>
               Email
             </Tabs.Trigger>
-            <Tabs.Trigger value="password" style={{ flexGrow: 1 }}>
+            <Tabs.Trigger value="password" className={styles.TabsTrigger}>
               Password
             </Tabs.Trigger>
           </Tabs.List>
@@ -268,7 +268,7 @@ export default function UserModal() {
                           size="8"
                           src={
                             AvatarData === null
-                              ? userInfo.user?.avatar
+                              ? `server/user/avatar/${userInfo.user?.avatar}`
                               : AvatarData
                           }
                           radius="full"

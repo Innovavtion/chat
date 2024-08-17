@@ -22,6 +22,9 @@ import {
   Card,
   Tabs,
 } from "@radix-ui/themes";
+
+import styles from "./friends.module.css";
+
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
@@ -89,10 +92,13 @@ export default function FriendsModal() {
           >
             <Tabs.Root defaultValue="new">
               <Tabs.List style={{ justifyContent: "center" }}>
-                <Tabs.Trigger value="new" style={{ flexGrow: 1 }}>
+                <Tabs.Trigger value="new" className={styles.FriendsTabsTriger}>
                   New Friends
                 </Tabs.Trigger>
-                <Tabs.Trigger value="invite" style={{ flexGrow: 1 }}>
+                <Tabs.Trigger
+                  value="invite"
+                  className={styles.FriendsTabsTriger}
+                >
                   Invite Friends
                 </Tabs.Trigger>
               </Tabs.List>
@@ -120,7 +126,10 @@ export default function FriendsModal() {
                                 </Text>
                               </Box>
                             </Box>
-                            <Button onClick={() => createReceivingInvite(user)}>
+                            <Button
+                              className={styles.ButtonModal}
+                              onClick={() => createReceivingInvite(user)}
+                            >
                               Invite
                             </Button>
                           </Flex>
@@ -153,6 +162,7 @@ export default function FriendsModal() {
                             </Box>
                             <Button
                               color="red"
+                              className={styles.ButtonModal}
                               onClick={() => rejectReceivingInvite(user)}
                             >
                               Reject
@@ -170,7 +180,7 @@ export default function FriendsModal() {
 
         <Flex gap="3" mt="4" justify="end">
           <Dialog.Close>
-            <Button variant="soft" color="gray">
+            <Button variant="soft" color="gray" className={styles.ButtonModal}>
               Close
             </Button>
           </Dialog.Close>

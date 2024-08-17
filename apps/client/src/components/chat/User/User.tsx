@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -19,6 +19,8 @@ export default function AuthUser() {
   const dispatch = useAppDispatch();
   const userInfo = useSelector(selectUser);
 
+  const memoUserInfo = useMemo(() => userInfo, [userInfo]);
+
   useEffect(() => {
     dispatch(getAuthUserInfo());
   }, [dispatch]);
@@ -37,18 +39,25 @@ export default function AuthUser() {
             size="4"
             radius="full"
             key={Date.now()}
-            src={userInfo.user?.avatar}
-            fallback={userInfo.user?.firstName.charAt(0)}
+            src={
+              memoUserInfo.user?.avatar !== null &&
+              `server/user/avatar/${memoUserInfo.user?.avatar}`
+            }
+            fallback={memoUserInfo.user?.firstName.charAt(0)}
           />
         </Skeleton>
         <Box className={styles.YourInfo}>
           <Text size="3" weight="bold">
-            <Skeleton loading={userInfo.status === "loading" ? true : false}>
-              {`${userInfo.user?.firstName} ${userInfo.user?.lastName}`}
+            <Skeleton
+              loading={memoUserInfo.status === "loading" ? true : false}
+            >
+              {`${memoUserInfo.user?.firstName} ${memoUserInfo.user?.lastName}`}
             </Skeleton>
           </Text>
           <Text className={styles.UserStatus} size="2">
-            <Skeleton loading={userInfo.status === "loading" ? true : false}>
+            <Skeleton
+              loading={memoUserInfo.status === "loading" ? true : false}
+            >
               В сети
             </Skeleton>
           </Text>

@@ -31,3 +31,8 @@
   font-size: small;
   color: red;
 }
+
+.TabsTrigger {
+  flex-grow: 1;
+  cursor: pointer;
+}

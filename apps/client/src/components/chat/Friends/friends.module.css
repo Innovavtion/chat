@@ -68,3 +68,8 @@
   cursor: pointer;
   box-shadow: none;
 }
+
+.FriendsTabsTriger {
+  flex-grow: 1;
+  cursor: pointer;
+}

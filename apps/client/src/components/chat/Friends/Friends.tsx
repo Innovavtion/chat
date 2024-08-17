@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import { useAppDispatch } from "@/store/store";
 import { useSelector } from "react-redux";
@@ -60,6 +60,8 @@ export default function FriendsUser() {
   const friends = useSelector(selectFriends);
   const dialog = useSelector(selectDialog);
 
+  const memoFriends = useMemo(() => friends, [friends]);
+
   useEffect(() => {
     dispatch(getFriendsUser());
     dispatch(getInviteUser());
@@ -107,7 +109,6 @@ export default function FriendsUser() {
                 }
               });
               SocketService.subscribeTypingMessage((data) => {
-                console.log(data);
                 dispatch(typingMessageChat(data));
               });
             } else {
@@ -119,7 +120,6 @@ export default function FriendsUser() {
                 }
               });
               SocketService.subscribeTypingMessage((data) => {
-                console.log(data);
                 dispatch(typingMessageChat(data));
               });
             }
@@ -151,10 +151,10 @@ export default function FriendsUser() {
       >
         <Tabs.Root defaultValue="friends">
           <Tabs.List style={{ justifyContent: "center" }}>
-            <Tabs.Trigger value="friends" style={{ flexGrow: 1 }}>
+            <Tabs.Trigger className={styles.FriendsTabsTriger} value="friends">
               Friends
             </Tabs.Trigger>
-            <Tabs.Trigger value="invite" style={{ flexGrow: 1 }}>
+            <Tabs.Trigger className={styles.FriendsTabsTriger} value="invite">
               Requests
             </Tabs.Trigger>
           </Tabs.List>
@@ -162,7 +162,7 @@ export default function FriendsUser() {
           <Box pt="3">
             <Tabs.Content value="friends">
               <Box className={styles.BoxList}>
-                {friends.friends?.searchList?.map((user) => (
+                {memoFriends.friends?.searchList?.map((user) => (
                   <Box key={user.id}>
                     <Card
                       style={{ cursor: "pointer" }}
@@ -175,7 +175,10 @@ export default function FriendsUser() {
                           <Avatar
                             size="3"
                             radius="full"
-                            src={user.avatar}
+                            src={
+                              user?.avatar !== null &&
+                              `server/user/avatar/${user?.avatar}`
+                            }
                             fallback={user.firstName.charAt(0)}
                           />
                           <Box style={{ margin: "0 0 0 12px" }}>
@@ -234,7 +237,7 @@ export default function FriendsUser() {
 
             <Tabs.Content value="invite">
               <Box className={styles.BoxList}>
-                {friends.invites?.searchList?.map((user) => (
+                {memoFriends.invites?.searchList?.map((user) => (
                   <Box key={user.id}>
                     <Card
                       style={{
@@ -253,7 +256,10 @@ export default function FriendsUser() {
                       >
                         <Avatar
                           size="3"
-                          src={user.avatar}
+                          src={
+                            user?.avatar !== null &&
+                            `server/user/avatar/${user?.avatar}`
+                          }
                           radius="full"
                           fallback={user.firstName.charAt(0)}
                         />

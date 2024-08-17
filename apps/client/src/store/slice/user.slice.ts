@@ -137,13 +137,11 @@ export const userSlice = createSlice({
   extraReducers(builder) {
     builder
       .addCase(getAuthUserInfo.pending, (state) => {
-        state.user = null;
         state.status = "loading";
         state.error = null;
       })
       .addCase(getAuthUserInfo.fulfilled, (state, action) => {
         state.user = action.payload[0];
-        state.user.avatar = `server/user/avatar/${action.payload[0].avatar}`;
         state.status = "success";
         state.error = null;
       })
@@ -157,23 +155,19 @@ export const userSlice = createSlice({
         state.error = null;
       })
       .addCase(updateName.pending, (state) => {
-        state.user;
         state.status = "idle";
         state.error = null;
       })
       .addCase(updateName.fulfilled, (state, action) => {
         state.user = action.payload;
-        state.user.avatar = `server/user/avatar/${action.payload.avatar}`;
         state.status = "success";
         state.error = null;
       })
       .addCase(updateName.rejected, (state, action) => {
-        state.user;
         state.status = "failed";
         state.error = action.payload;
       })
       .addCase(updateEmail.pending, (state) => {
-        state.user;
         state.status = "idle";
         state.error = null;
       })
@@ -183,7 +177,6 @@ export const userSlice = createSlice({
         state.error = null;
       })
       .addCase(updateEmail.rejected, (state, action) => {
-        state.user;
         state.status = "failed";
         state.error = action.payload;
       })
@@ -197,14 +190,11 @@ export const userSlice = createSlice({
         state.error = null;
       })
       .addCase(updatePassword.rejected, (state, action) => {
-        state.user;
         state.status = "failed";
         state.error = action.payload;
       });
   },
 });
-
-export const {} = userSlice.actions;
 
 export const selectUser = (state: RootState) => state.user;
 

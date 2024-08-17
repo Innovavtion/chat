@@ -14,7 +14,7 @@ export default function InfoUser() {
       <Box className={styles.SectionUser}>
         <Avatar
           size="4"
-          src={dialog.currentChatUser?.avatar}
+          src={`server/user/avatar/${dialog.currentChatUser?.avatar}`}
           fallback={dialog.currentChatUser?.firstName.charAt(0)}
           radius="full"
         />

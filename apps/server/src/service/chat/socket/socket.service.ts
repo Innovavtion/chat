@@ -54,7 +54,6 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: Socket,
     @MessageBody() data: TypingChatUser,
   ) {
-    console.log(`Client ${client.id} (${data.userId}) typing: ${data.chatId}`);
     client.to(data.chatId).emit('typing-chat', data);
   }
 
