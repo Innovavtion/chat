@@ -38,7 +38,6 @@ export default function AuthUser() {
           <Avatar
             size="4"
             radius="full"
-            key={Date.now()}
             src={
               memoUserInfo.user?.avatar !== null &&
               `server/user/avatar/${memoUserInfo.user?.avatar}`
