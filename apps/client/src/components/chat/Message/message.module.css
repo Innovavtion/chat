@@ -75,6 +75,16 @@
 .UserStatus {
   color: var(--accent-10);
   margin-top: 1px;
+
+  /* Animation Writing Message */
+  clip-path: inset(0 10px 0 0);
+  animation: typing 1s steps(5) infinite;
+}
+
+@keyframes typing {
+  to {
+    clip-path: inset(0 -1ch 0 0);
+  }
 }
 
 .SectionInfoFriends {

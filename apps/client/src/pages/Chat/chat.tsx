@@ -10,9 +10,19 @@ import MessageInput from "@/components/chat/Message/MessageInput";
 import { Box } from "@radix-ui/themes";
 
 import styles from "./chat.module.css";
+import { SocketService } from "@/services/socket/socket.service";
+import { selectAuth } from "@/store/slice/auth.slice";
+import { useEffect } from "react";
 
 export default function Chat() {
   const dialog = useSelector(selectDialog);
+  const auth = useSelector(selectAuth);
+
+  useEffect(() => {
+    if (auth.auth === true) {
+      SocketService.connect();
+    }
+  }, [auth.auth]);
 
   return (
     <Box className={styles.Container}>

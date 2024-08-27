@@ -13,6 +13,7 @@ import { MessageModule } from './service/message/message.module';
 
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './service/auth/guards/jwt-auth.guard';
+import { SocketModule } from './service/sockets/socket.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { JwtAuthGuard } from './service/auth/guards/jwt-auth.guard';
     }),
     UserModule,
     PrismaModule,
+    SocketModule,
     AuthModule,
     FriendModule,
     ChatModule,

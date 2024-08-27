@@ -99,9 +99,6 @@ export default function FriendsUser() {
           dispatch(getChatUser(e)).then(() => {
             if (dialog.chat !== null) {
               SocketService.leaveChat(dialog.chat?.id);
-              SocketService.disconnect();
-
-              SocketService.connect();
               SocketService.joinChat(e.id);
               SocketService.subscribeCreateMessage((data) => {
                 if (userAuth.user?.id !== data.userId) {
@@ -112,7 +109,6 @@ export default function FriendsUser() {
                 dispatch(typingMessageChat(data));
               });
             } else {
-              SocketService.connect();
               SocketService.joinChat(e.id);
               SocketService.subscribeCreateMessage((data) => {
                 if (userAuth.user?.id !== data.userId) {
