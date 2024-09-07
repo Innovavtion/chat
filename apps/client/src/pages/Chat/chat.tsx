@@ -13,16 +13,35 @@ import styles from "./chat.module.css";
 import { SocketService } from "@/services/socket/socket.service";
 import { selectAuth } from "@/store/slice/auth.slice";
 import { useEffect } from "react";
+import { selectUser } from "@/store/slice/user.slice";
+import { useAppDispatch } from "@/store/store";
+import { friendsOnlineUpdate } from "@/store/slice/friends.slice";
+
+export type UserActiveDto = {
+  userId: string;
+  data: string;
+};
 
 export default function Chat() {
+  const dispatch = useAppDispatch();
   const dialog = useSelector(selectDialog);
   const auth = useSelector(selectAuth);
+  const user = useSelector(selectUser);
 
   useEffect(() => {
-    if (auth.auth === true) {
-      SocketService.connect();
+    if (auth.auth && user.user !== null) {
+      const UserInAppInfo: UserActiveDto = {
+        userId: user.user?.id,
+        data: new Date().toDateString(),
+      };
+
+      SocketService.subscribeUsersInOnline((data) => {
+        dispatch(friendsOnlineUpdate(data));
+      });
+
+      SocketService.userInOnline(UserInAppInfo);
     }
-  }, [auth.auth]);
+  }, [auth.auth, user.user?.id, dispatch]);
 
   return (
     <Box className={styles.Container}>

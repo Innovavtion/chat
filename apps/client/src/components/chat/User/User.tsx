@@ -13,6 +13,7 @@ import { Box, Text, Avatar, Skeleton } from "@radix-ui/themes";
 import { ExitIcon } from "@radix-ui/react-icons";
 
 import styles from "./user.module.css";
+import { SocketService } from "@/services/socket/socket.service";
 
 export default function AuthUser() {
   const navigate = useNavigate();
@@ -22,11 +23,16 @@ export default function AuthUser() {
   const memoUserInfo = useMemo(() => userInfo, [userInfo]);
 
   useEffect(() => {
+    SocketService.connect();
+  }, []);
+
+  useEffect(() => {
     dispatch(getAuthUserInfo());
   }, [dispatch]);
 
   async function logoutUser() {
     dispatch(logout()).then(() => {
+      SocketService.disconnect();
       navigate("/signin");
     });
   }
@@ -57,7 +63,7 @@ export default function AuthUser() {
             <Skeleton
               loading={memoUserInfo.status === "loading" ? true : false}
             >
-              В сети
+              Online
             </Skeleton>
           </Text>
         </Box>

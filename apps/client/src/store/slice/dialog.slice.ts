@@ -100,6 +100,9 @@ export const dialogSlice = createSlice({
       state.chat.typing = action.payload;
       state.chat.typing.isTyping = action.payload.isTyping;
     },
+    clearTypingMessageChat: (state: Dialog) => {
+      state.chat.typing.isTyping = false;
+    },
     addMessageChat: (state: Dialog, action) => {
       state.chat?.messages.push(action.payload);
     },
@@ -135,6 +138,7 @@ export const {
   clearCurrentChat,
   getCurrentChatUser,
   typingMessageChat,
+  clearTypingMessageChat,
   addMessageChat,
 } = dialogSlice.actions;
 

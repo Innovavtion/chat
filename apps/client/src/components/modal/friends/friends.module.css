@@ -3,6 +3,14 @@
   cursor: pointer;
 }
 
+.UserStatusUnactive {
+  color: var(--gray-9);
+}
+
+.UserStatusActive {
+  color: var(--accent-10);
+}
+
 .ButtonModal {
   cursor: pointer;
 }

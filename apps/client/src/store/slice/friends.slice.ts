@@ -34,6 +34,7 @@ interface FriendsInfo {
     receivingList: FriendsList | null | undefined;
     searchList: FriendsList | null | undefined;
   };
+  friendsOnline: Array<object>;
   status: "idle" | "loading" | "success" | "failed";
   error: { statusCode: string; message: string } | null | unknown;
 }
@@ -215,6 +216,7 @@ const initialState: FriendsInfo = {
   invites: { invitesList: null, searchList: null },
   newFriends: { newFriendsList: null, searchList: null },
   receiving: { receivingList: null, searchList: null },
+  friendsOnline: [],
   status: "idle",
   error: null,
 };
@@ -268,6 +270,9 @@ export const friendsSlice = createSlice({
       } else {
         state.receiving.searchList = state.receiving.receivingList;
       }
+    },
+    friendsOnlineUpdate: (state, action) => {
+      state.friendsOnline = action.payload;
     },
   },
   extraReducers(builder) {
@@ -437,6 +442,7 @@ export const {
   searchCurrentInvites,
   searchCurrentNewFriends,
   searchCurrentReceiving,
+  friendsOnlineUpdate,
 } = friendsSlice.actions;
 
 export const selectFriends = (state: RootState) => state.friends;

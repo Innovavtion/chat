@@ -121,9 +121,25 @@ export default function FriendsModal() {
                                 <Text as="div" size="2" weight="bold">
                                   {user.firstName + " " + user.lastName}
                                 </Text>
-                                <Text as="div" size="2" color="blue">
-                                  В сети
-                                </Text>
+                                {friends.friendsOnline?.some(
+                                  (onlineUser) => onlineUser.userId === user.id
+                                ) ? (
+                                  <Text
+                                    as="div"
+                                    className={styles.UserStatusActive}
+                                    size="2"
+                                  >
+                                    Online
+                                  </Text>
+                                ) : (
+                                  <Text
+                                    as="div"
+                                    className={styles.UserStatusUnactive}
+                                    size="2"
+                                  >
+                                    Offline
+                                  </Text>
+                                )}
                               </Box>
                             </Box>
                             <Button
@@ -155,9 +171,25 @@ export default function FriendsModal() {
                                 <Text as="div" size="2" weight="bold">
                                   {user.firstName + " " + user.lastName}
                                 </Text>
-                                <Text as="div" size="2" color="blue">
-                                  В сети
-                                </Text>
+                                {friends.friendsOnline?.some(
+                                  (onlineUser) => onlineUser.userId === user.id
+                                ) ? (
+                                  <Text
+                                    as="div"
+                                    className={styles.UserStatusActive}
+                                    size="2"
+                                  >
+                                    Online
+                                  </Text>
+                                ) : (
+                                  <Text
+                                    as="div"
+                                    className={styles.UserStatusUnactive}
+                                    size="2"
+                                  >
+                                    Offline
+                                  </Text>
+                                )}
                               </Box>
                             </Box>
                             <Button

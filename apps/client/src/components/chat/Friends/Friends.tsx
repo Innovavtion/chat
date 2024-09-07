@@ -54,6 +54,11 @@ import {
 
 import styles from "./friends.module.css";
 
+export type UserActiveDto = {
+  userId: string;
+  data: string;
+};
+
 export default function FriendsUser() {
   const dispatch = useAppDispatch();
   const userAuth = useSelector(selectUser);
@@ -186,13 +191,25 @@ export default function FriendsUser() {
                             >
                               {`${user.firstName} ${user.lastName}`}
                             </Text>
-                            <Text
-                              as="div"
-                              className={styles.UserStatus}
-                              size="2"
-                            >
-                              В сети
-                            </Text>
+                            {friends.friendsOnline?.some(
+                              (onlineUser) => onlineUser.userId === user.id
+                            ) ? (
+                              <Text
+                                as="div"
+                                className={styles.UserStatusActive}
+                                size="2"
+                              >
+                                Online
+                              </Text>
+                            ) : (
+                              <Text
+                                as="div"
+                                className={styles.UserStatusUnactive}
+                                size="2"
+                              >
+                                Offline
+                              </Text>
+                            )}
                           </Box>
                         </Box>
                         <Box>
@@ -268,9 +285,25 @@ export default function FriendsUser() {
                           >
                             {`${user.firstName} ${user.lastName}`}
                           </Text>
-                          <Text as="div" className={styles.UserStatus} size="2">
-                            В сети
-                          </Text>
+                          {friends.friendsOnline?.some(
+                            (onlineUser) => onlineUser.userId === user.id
+                          ) ? (
+                            <Text
+                              as="div"
+                              className={styles.UserStatusActive}
+                              size="2"
+                            >
+                              Online
+                            </Text>
+                          ) : (
+                            <Text
+                              as="div"
+                              className={styles.UserStatusUnactive}
+                              size="2"
+                            >
+                              Offline
+                            </Text>
+                          )}
                         </Box>
                       </Box>
                       <Box>

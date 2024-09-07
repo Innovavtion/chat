@@ -24,20 +24,30 @@ export type TypingChatUser = {
 };
 
 export type ServerToClientEvents = {
-  "create-message": (data: IMessage) => void;
+  "user-in-app": (data: UserActiveDto) => void;
   "typing-chat": (data: TypingChatUser) => void;
+  "create-message": (data: IMessage) => void;
 };
 
 export type ClientToServerEvents = {
-  "create-message": (data: CreateMessageDto) => void;
+  "user-in-app": (data: UserActiveDto) => void;
   "join-chat": (chatId: string) => void;
   "leave-chat": (chatId: string) => void;
   "typing-chat": (data: TypingChatUser) => void;
+  "create-message": (data: CreateMessageDto) => void;
+};
+
+export type UserActiveDto = {
+  userId: string;
+  data: string;
 };
 
 class SocketChat {
-  private readonly socket: Socket<ServerToClientEvents, ClientToServerEvents> =
-    io("http://localhost:5000", { autoConnect: false });
+  public readonly socket: Socket<ServerToClientEvents, ClientToServerEvents> =
+    io("http://localhost:5000", {
+      autoConnect: false,
+      transports: ["websocket"],
+    });
 
   connect() {
     this.socket.connect();
@@ -45,6 +55,10 @@ class SocketChat {
 
   disconnect() {
     this.socket.disconnect();
+  }
+
+  userInOnline(data: UserActiveDto) {
+    this.socket.emit("user-in-app", data);
   }
 
   joinChat(chatId: string) {
@@ -63,6 +77,10 @@ class SocketChat {
 
   createTypingMessage(data: TypingChatUser) {
     this.socket.emit("typing-chat", data);
+  }
+
+  subscribeUsersInOnline(data: ServerToClientEvents["user-in-app"]) {
+    this.socket.on("user-in-app", data);
   }
 
   subscribeCreateMessage(data: ServerToClientEvents["create-message"]) {
