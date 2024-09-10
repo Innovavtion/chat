@@ -33,16 +33,12 @@ const ChatEmoji: Array = [
   { emoji: "💕" },
   { emoji: "😁" },
   { emoji: "👍" },
-  { emoji: "🤣" },
-  { emoji: "😊" },
-  { emoji: "❤️" },
-  { emoji: "😍" },
-  { emoji: "😒" },
-  { emoji: "👌" },
-  { emoji: "😘" },
-  { emoji: "💕" },
-  { emoji: "😁" },
-  { emoji: "👍" },
+  { emoji: "✌️" },
+  { emoji: "😜" },
+  { emoji: "🤦‍♀️" },
+  { emoji: "🤦‍♂️" },
+  { emoji: "🤷‍♀️" },
+  { emoji: "🤷‍♂️" },
 ];
 
 export default function Input() {

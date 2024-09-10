@@ -12,7 +12,7 @@ import {
   updatePassword,
 } from "@/store/slice/user.slice";
 import { useAppDispatch } from "@/store/store";
-import { GearIcon, UploadIcon } from "@radix-ui/react-icons";
+import { GearIcon, MoonIcon, SunIcon } from "@radix-ui/react-icons";
 import {
   Button,
   Dialog,
@@ -23,7 +23,7 @@ import {
   TextField,
   Tabs,
 } from "@radix-ui/themes";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import { useForm } from "react-hook-form";
@@ -31,6 +31,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 
 import styles from "./user.module.css";
+import { ThemeProviderContext } from "@/providers/ThemeProvider";
 
 const ValidateName = z.object({
   firstName: z
@@ -198,6 +199,7 @@ function ValidateAvatar() {
 }
 
 export default function UserModal() {
+  const { theme, setTheme } = useContext(ThemeProviderContext);
   const dispatch = useAppDispatch();
   const userInfo = useSelector(selectUser);
 
@@ -323,13 +325,29 @@ export default function UserModal() {
                 </Flex>
                 <Flex justify="end" gap="3" mt="5">
                   <Dialog.Close>
-                    <Button variant="soft" color="gray">
+                    <Button
+                      variant="soft"
+                      color="gray"
+                      style={{ cursor: "pointer" }}
+                    >
                       Cancel
                     </Button>
                   </Dialog.Close>
-                  <Button>Save</Button>
+                  <Button style={{ cursor: "pointer" }}>Save</Button>
                 </Flex>
               </form>
+              <Flex justify="start" position="absolute" bottom="0">
+                <Button
+                  variant="soft"
+                  color="gray"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setTheme(theme);
+                  }}
+                >
+                  {theme === "light" ? <SunIcon /> : <MoonIcon />}
+                </Button>
+              </Flex>
             </Tabs.Content>
 
             <Tabs.Content value="email">
@@ -393,13 +411,29 @@ export default function UserModal() {
                 </Box>
                 <Flex justify="end" gap="3" mt="5">
                   <Dialog.Close>
-                    <Button variant="soft" color="gray">
+                    <Button
+                      variant="soft"
+                      color="gray"
+                      style={{ cursor: "pointer" }}
+                    >
                       Cancel
                     </Button>
                   </Dialog.Close>
-                  <Button>Reset Email</Button>
+                  <Button style={{ cursor: "pointer" }}>Reset Email</Button>
                 </Flex>
               </form>
+              <Flex justify="start" position="absolute" bottom="0">
+                <Button
+                  variant="soft"
+                  color="gray"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setTheme(theme);
+                  }}
+                >
+                  {theme === "light" ? <SunIcon /> : <MoonIcon />}
+                </Button>
+              </Flex>
             </Tabs.Content>
 
             <Tabs.Content value="password">
@@ -450,13 +484,29 @@ export default function UserModal() {
                 </Box>
                 <Flex justify="end" gap="3" mt="5">
                   <Dialog.Close>
-                    <Button variant="soft" color="gray">
+                    <Button
+                      variant="soft"
+                      color="gray"
+                      style={{ cursor: "pointer" }}
+                    >
                       Cancel
                     </Button>
                   </Dialog.Close>
-                  <Button>Reset Password</Button>
+                  <Button style={{ cursor: "pointer" }}>Reset Password</Button>
                 </Flex>
               </form>
+              <Flex justify="start" position="absolute" bottom="0">
+                <Button
+                  variant="soft"
+                  color="gray"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setTheme(theme);
+                  }}
+                >
+                  {theme === "light" ? <SunIcon /> : <MoonIcon />}
+                </Button>
+              </Flex>
             </Tabs.Content>
           </Box>
         </Tabs.Root>

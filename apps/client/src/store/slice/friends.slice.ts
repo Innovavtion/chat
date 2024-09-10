@@ -244,7 +244,7 @@ export const friendsSlice = createSlice({
             .includes(action.payload.toLowerCase())
         );
       } else {
-        state.invites.searchList = state.friends.friendsList;
+        state.invites.searchList = state.invites.invitesList;
       }
     },
     searchCurrentNewFriends: (state, action) => {
@@ -301,6 +301,15 @@ export const friendsSlice = createSlice({
           (e) => e.id !== action.payload.userInvite.id
         );
         state.friends.friendsList?.push(action.payload.userInvite);
+        state.friends.friendsList = state.friends.friendsList?.sort((a, b) => {
+          if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) {
+            return -1;
+          }
+          if (a.firstName.toLowerCase() > b.firstName.toLowerCase()) {
+            return 1;
+          }
+          return 0;
+        });
         if (state.invites.searchList !== null) {
           state.invites.searchList = state.invites.searchList?.filter(
             (e) => e.id !== action.payload.userInvite.id
@@ -412,8 +421,8 @@ export const friendsSlice = createSlice({
         state.friends.friendsList = state.friends.friendsList?.filter(
           (e) => e.id !== action.payload.id
         );
-        state.receiving.searchList?.push(action.payload);
-        state.receiving.searchList = state.receiving.searchList?.sort(
+        state.newFriends.searchList?.push(action.payload);
+        state.newFriends.searchList = state.newFriends.searchList?.sort(
           (a, b) => {
             if (a.firstName.toLowerCase() < b.firstName.toLowerCase()) {
               return -1;

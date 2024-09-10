@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { EventHandler, useEffect, useMemo } from "react";
 
 import { useAppDispatch } from "@/store/store";
 import { useSelector } from "react-redux";
@@ -81,7 +81,8 @@ export default function FriendsUser() {
     dispatch(rejectInvite(user));
   };
 
-  function deleteFriendIsFriend(user: Friend) {
+  function deleteFriendIsFriend(user: Friend, e: Event) {
+    e.stopPropagation();
     dispatch(deleteFriend(user));
     dialog.chats?.map((e) => {
       if (user.id === e.particapants[0].userId) {
@@ -234,7 +235,7 @@ export default function FriendsUser() {
                               <DropdownMenu.Separator />
                               <DropdownMenu.Item
                                 color="red"
-                                onClick={() => deleteFriendIsFriend(user)}
+                                onClick={(e) => deleteFriendIsFriend(user, e)}
                               >
                                 Delete
                               </DropdownMenu.Item>

@@ -1,5 +1,7 @@
 import { useEffect, useRef } from "react";
 
+import { DateTime } from "luxon";
+
 import { useSelector } from "react-redux";
 import { selectDialog } from "@/store/slice/dialog.slice";
 
@@ -16,6 +18,14 @@ export default function Message() {
       messageEl.current.scrollTop = messageEl.current.scrollHeight;
     }
   }, [dialog]);
+
+  function getLocalTime(time: string) {
+    const data = DateTime.fromISO(time)
+      .toFormat("yyyy-MM-dd HH:mm:ss")
+      .toString();
+
+    return data;
+  }
 
   return (
     <Box className={styles.Container}>
@@ -46,7 +56,7 @@ export default function Message() {
                       size="1"
                       color="gray"
                     >
-                      {message.dataWrite}
+                      {getLocalTime(message.dataWrite)}
                     </Text>
                   </Box>
                   <Text className={styles.Message} size="2">
@@ -60,7 +70,7 @@ export default function Message() {
                 <Card className={styles.TextBox}>
                   <Box className={styles.MessageTitle}>
                     <Text size="1" color="gray">
-                      {message.dataWrite}
+                      {getLocalTime(message.dataWrite)}
                     </Text>
                   </Box>
                   <Text className={styles.Message} size="2">
