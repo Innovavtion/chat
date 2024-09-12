@@ -49,7 +49,6 @@ export class MessageService {
         include: {
           messages: {
             orderBy: { dataWrite: 'asc' },
-            take: 50,
             select: { userId: true, text: true, dataWrite: true },
           },
         },

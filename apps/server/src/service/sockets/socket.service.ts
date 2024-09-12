@@ -10,6 +10,7 @@ import { Socket } from 'socket.io';
 
 import { MessageService } from 'src/service/message/message.service';
 import { CreateMessageDto } from 'src/service/message/dto/message.dto';
+import { ChatService } from '../chat/chat.service';
 
 export type TypingChatUser = {
   chatId: string;
@@ -29,16 +30,19 @@ export type UsersActiveDto = {
 
 @WebSocketGateway({ cors: { origin: '*' } })
 export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
-  constructor(private readonly messageService: MessageService) {}
+  constructor(
+    private readonly messageService: MessageService,
+    private readonly chatService: ChatService,
+  ) {}
 
   UsersInOnline: Array<UsersActiveDto> = [];
 
   handleConnection(@ConnectedSocket() client: Socket) {
-    console.log(`Client connection ${client.id}`);
+    // console.log(`Client connection ${client.id}`);
   }
 
   handleDisconnect(@ConnectedSocket() client: Socket) {
-    console.log(`Client disconnection ${client.id}`);
+    // console.log(`Client disconnection ${client.id}`);
 
     const GetUserInOnline = this.UsersInOnline.find(
       (onlineUser) => onlineUser.clientId === client.id,
@@ -111,7 +115,8 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: Socket,
     @MessageBody() chatId: string,
   ) {
-    console.log(`Client ${client.id} - joined chat: ${chatId}`);
+    // console.log(`Client ${client.id} - joined chat: ${chatId}`);
+
     client.join(chatId);
     return chatId;
   }
@@ -121,7 +126,8 @@ export class SocketService implements OnGatewayConnection, OnGatewayDisconnect {
     @ConnectedSocket() client: Socket,
     @MessageBody() chatId: string,
   ) {
-    console.log(`Client ${client.id} - leaving chat: ${chatId}`);
+    // console.log(`Client ${client.id} - leaving chat: ${chatId}`);
+
     client.leave(chatId);
     return chatId;
   }

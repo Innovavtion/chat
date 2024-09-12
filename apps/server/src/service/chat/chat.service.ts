@@ -51,6 +51,10 @@ export class ChatService {
             orderBy: { dataWrite: 'asc' },
             select: { userId: true, text: true, dataWrite: true },
           },
+          particapants: {
+            where: { userId: { not: user.id } },
+            select: { userId: true },
+          },
         },
       });
 

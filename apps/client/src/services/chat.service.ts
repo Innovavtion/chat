@@ -14,6 +14,10 @@ export type Message = {
   dataWrite: string;
 };
 
+export type CreateChat = {
+  userId: string;
+};
+
 export type CreateMessage = {
   chatId: string;
   message: string;
@@ -38,6 +42,14 @@ export async function getChatsUser(): Promise<AxiosResponse<Chats>> {
 
 export async function getCurrentChat(data: Chat): Promise<AxiosResponse<Chat>> {
   const response = await ApiInterceptor.get(`chat/current-chat/${data.id}`);
+
+  return response;
+}
+
+export async function createChat(
+  data: CreateChat
+): Promise<AxiosResponse<Chat>> {
+  const response = await ApiInterceptor.post(`chat/create-chat`, data);
 
   return response;
 }

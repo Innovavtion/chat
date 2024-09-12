@@ -1,4 +1,4 @@
-import { EventHandler, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
 import { useAppDispatch } from "@/store/store";
 import { useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import {
   getCurrentChatsUser,
   getCurrentChatUser,
   selectDialog,
+  createChatForUsers,
 } from "@/store/slice/dialog.slice";
 
 import {
@@ -100,34 +101,47 @@ export default function FriendsUser() {
     if (user.id !== dialog.currentChatUser?.id) {
       dispatch(getCurrentChatUser(user));
 
-      dialog.chats?.map((e) => {
-        if (e.particapants[0].userId === user.id) {
-          dispatch(getChatUser(e)).then(() => {
-            if (dialog.chat !== null) {
-              SocketService.leaveChat(dialog.chat?.id);
-              SocketService.joinChat(e.id);
-              SocketService.subscribeCreateMessage((data) => {
-                if (userAuth.user?.id !== data.userId) {
-                  dispatch(addMessageChat(data));
-                }
-              });
-              SocketService.subscribeTypingMessage((data) => {
-                dispatch(typingMessageChat(data));
-              });
-            } else {
-              SocketService.joinChat(e.id);
-              SocketService.subscribeCreateMessage((data) => {
-                if (userAuth.user?.id !== data.userId) {
-                  dispatch(addMessageChat(data));
-                }
-              });
-              SocketService.subscribeTypingMessage((data) => {
-                dispatch(typingMessageChat(data));
-              });
+      const chatCreate = dialog.chats?.find(
+        (chat) => chat.particapants[0].userId === user.id
+      );
+
+      if (chatCreate) {
+        dispatch(getChatUser(chatCreate));
+
+        if (dialog.chat !== null) {
+          SocketService.leaveChat(dialog.chat?.id);
+        }
+
+        SocketService.joinChat(chatCreate.id);
+        SocketService.subscribeCreateMessage((data) => {
+          if (userAuth.user?.id !== data.userId) {
+            dispatch(addMessageChat(data));
+          }
+        });
+        SocketService.subscribeTypingMessage((data) => {
+          dispatch(typingMessageChat(data));
+        });
+
+        console.log("connect chat");
+      } else {
+        if (dialog.chat !== null) {
+          SocketService.leaveChat(dialog.chat?.id);
+        }
+
+        dispatch(createChatForUsers({ userId: user.id })).then((chat) => {
+          SocketService.joinChat(chat.payload.id);
+          SocketService.subscribeCreateMessage((data) => {
+            if (userAuth.user?.id !== data.userId) {
+              dispatch(addMessageChat(data));
             }
           });
-        }
-      });
+          SocketService.subscribeTypingMessage((data) => {
+            dispatch(typingMessageChat(data));
+          });
+        });
+
+        console.log("dont connect chat");
+      }
     }
   }
 

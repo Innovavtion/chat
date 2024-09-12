@@ -5,6 +5,8 @@ import { Friend } from "@/services/friends.service";
 import {
   Chat,
   Chats,
+  createChat,
+  CreateChat,
   createMessage,
   CreateMessage,
   getChatsUser,
@@ -54,6 +56,25 @@ export const getChatUser = createAsyncThunk(
 
       if (response.status === 400) {
         throw new Error("Get chat error");
+      }
+
+      return response.data;
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        return rejectWithValue(e.response?.data);
+      }
+    }
+  }
+);
+
+export const createChatForUsers = createAsyncThunk(
+  "chat/create-chat",
+  async (data: CreateChat, { rejectWithValue }) => {
+    try {
+      const response = await createChat(data);
+
+      if (response.status === 400) {
+        throw new Error("Create chat error");
       }
 
       return response.data;
@@ -124,6 +145,11 @@ export const dialogSlice = createSlice({
       })
       .addCase(getChatUser.rejected, (state) => {
         state.chat = null;
+      })
+      .addCase(createChatForUsers.fulfilled, (state, action) => {
+        state.chats?.push(action.payload);
+        state.chat = action.payload;
+        state.chat.typing = { userId: action.payload.id, isTyping: false };
       })
       .addCase(createMessageChat.fulfilled, (state, action) => {
         state.chat?.messages.push(action.payload);
